@@ -1,3 +1,8 @@
+FROM alpine:3.19 AS schema-patch
+WORKDIR /opt/schemas
+COPY assets/validator/xray.schema.json ./xray.schema.json
+COPY assets/validator/xray.schema.cn.json ./xray.schema.cn.json
+
 FROM alpine:3.19 AS frontend
 WORKDIR /opt/frontend
 
@@ -10,11 +15,12 @@ RUN apk add --no-cache curl unzip ca-certificates \
     && curl -L ${FRONTEND_URL} -o frontend.zip \
     && unzip frontend.zip -d frontend_temp \
     && curl -L https://validator.remna.dev/wasm_exec.js -o frontend_temp/dist/assets/wasm_exec.js \
-    && curl -L https://validator.remna.dev/xray.schema.json -o frontend_temp/dist/assets/xray.schema.json \
-    && curl -L https://validator.remna.dev/xray.schema.cn.json -o frontend_temp/dist/assets/xray.schema.cn.json \
     && curl -L ${SINGBOX_SCHEMA_URL} -o frontend_temp/dist/assets/singbox.schema.json \
     && curl -L ${MIHOMO_SCHEMA_URL} -o frontend_temp/dist/assets/mihomo.schema.json \
     && curl -L https://validator.remna.dev/main.wasm -o frontend_temp/dist/assets/main.wasm
+
+COPY --from=schema-patch /opt/schemas/xray.schema.json frontend_temp/dist/assets/xray.schema.json
+COPY --from=schema-patch /opt/schemas/xray.schema.cn.json frontend_temp/dist/assets/xray.schema.cn.json
 
 FROM node:24.20-trixie-slim AS backend-build
 WORKDIR /opt/app
