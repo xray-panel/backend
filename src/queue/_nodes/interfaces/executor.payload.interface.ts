@@ -1,4 +1,4 @@
-import { BlockIpsCommand, UnblockIpsCommand } from '@remnawave/node-contract';
+import { BlockIpsCommand, UnblockIpsCommand } from '@xpanel/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

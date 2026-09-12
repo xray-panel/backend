@@ -1,4 +1,4 @@
-import { GetGeocheckCommand } from '@remnawave/node-contract';
+import { GetGeocheckCommand } from '@xpanel/node-contract';
 
 export interface IGeocheckPayload {
     nodeUuid: string;

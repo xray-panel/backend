@@ -1,4 +1,4 @@
-import { CipherType } from '@remnawave/node-contract';
+import { CipherType } from '@xpanel/node-contract';
 
 export enum ShadowsocksMethod {
     AES_128_GCM = 'aes-128-gcm',

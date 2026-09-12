@@ -5,7 +5,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { GetUsersStatsCommand } from '@remnawave/node-contract';
+import { GetUsersStatsCommand } from '@xpanel/node-contract';
 
 import { AxiosService } from '@common/axios';
 import { TypedConfigService } from '@common/config/app-config';

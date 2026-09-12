@@ -1,4 +1,4 @@
-import { DropUsersConnectionsCommand } from '@remnawave/node-contract';
+import { DropUsersConnectionsCommand } from '@xpanel/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

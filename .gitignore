@@ -70,4 +70,5 @@ openapi.json
 prisma/generated/types.ts
 
 frontend/
-f.json
+f.jsonvendor/*/build/
+libs/hashed-set/build/

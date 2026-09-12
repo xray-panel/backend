@@ -1,4 +1,4 @@
-import { DropIpsCommand } from '@remnawave/node-contract';
+import { DropIpsCommand } from '@xpanel/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

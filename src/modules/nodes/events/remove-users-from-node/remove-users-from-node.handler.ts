@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { IEventHandler, EventsHandler } from '@nestjs/cqrs';
 
-import { RemoveUsersCommand as RemoveUsersFromNodeCommandSdk } from '@remnawave/node-contract';
+import { RemoveUsersCommand as RemoveUsersFromNodeCommandSdk } from '@xpanel/node-contract';
 
 import { NodesQueuesService } from '@queue/_nodes';
 

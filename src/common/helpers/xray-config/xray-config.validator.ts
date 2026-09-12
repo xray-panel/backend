@@ -11,7 +11,7 @@ import {
     XrayConfig,
 } from 'xray-typed';
 
-import { HashedSet } from '@remnawave/hashed-set';
+import { HashedSet } from '@xpanel/hashed-set';
 
 import { readPemLines } from '@common/utils/certs';
 import { getVlessFlow } from '@common/utils/flow/get-vless-flow';

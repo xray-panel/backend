@@ -1,4 +1,4 @@
-import { AddUserCommand as AddUserToNodeCommandSdk } from '@remnawave/node-contract';
+import { AddUserCommand as AddUserToNodeCommandSdk } from '@xpanel/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

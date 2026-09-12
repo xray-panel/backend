@@ -1,4 +1,4 @@
-import { RemoveUserCommand } from '@remnawave/node-contract';
+import { RemoveUserCommand } from '@xpanel/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

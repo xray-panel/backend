@@ -1,1 +1,1 @@
-# @remnawave/hashed-set
+# @xpanel/hashed-set

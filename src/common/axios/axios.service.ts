@@ -27,6 +27,7 @@ import {
     GetUserIpListCommand,
     GetUsersIpListCommand,
     GetUsersStatsCommand,
+    ClearLogsCommand,
     RecreateTablesCommand,
     RemoveUserCommand,
     RemoveUsersCommand,
@@ -34,7 +35,7 @@ import {
     StopXrayCommand,
     SyncCommand,
     UnblockIpsCommand,
-} from '@remnawave/node-contract';
+} from '@xpanel/node-contract';
 
 import { prettyBytesUtil } from '@common/utils/bytes';
 import { deriveSni } from '@common/utils/certs';
@@ -269,6 +270,22 @@ export class AxiosService {
             path: StopXrayCommand.url,
             opts,
             method: 'get',
+        });
+    }
+
+    /**
+     * Очистка логов Xray на ноде. Нода выполняет ротацию через s6-log и
+     * удаляет собранные архивы, поэтому вызов идемпотентен и безопасен для
+     * работающего процесса: открытый файл лога не обрезается напрямую.
+     */
+    public async clearXrayLogs(
+        opts: INodeConnectionOpts,
+    ): Promise<TResult<ClearLogsCommand.Response['response']>> {
+        return this.request<ClearLogsCommand.Response>({
+            label: 'CLEAR XRAY LOGS',
+            path: ClearLogsCommand.url,
+            opts,
+            timeout: 30_000,
         });
     }
 

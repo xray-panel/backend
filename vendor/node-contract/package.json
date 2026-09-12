@@ -1,0 +1,31 @@
+{
+  "name": "@xpanel/node-contract",
+  "version": "3.4.1",
+  "description": "A node-contract library for XPANEL Panel",
+  "keywords": [],
+  "homepage": "https://github.com/CHANGE-ME/xpanel",
+  "bugs": {
+    "url": "https://github.com/CHANGE-ME/xpanel/node/issues"
+  },
+  "license": "AGPL-3.0-only",
+  "author": "XPANEL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CHANGE-ME/xpanel/node"
+  },
+  "files": [
+    "build/**/*"
+  ],
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "prepublish": "rm -rf build && tsc",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
+}
