@@ -1,3 +1,4 @@
+export * from './clear-logs.command';
 export * from './disable.command';
 export * from './enable.command';
 export * from './reorder.command';

@@ -13,6 +13,10 @@ import { NodeEvent } from '@integration-modules/notifications/interfaces';
 
 import { GetConfigProfileByUuidQuery } from '@modules/config-profiles/queries/get-config-profile-by-uuid';
 
+import { AxiosService } from '@common/axios';
+
+import { ClearNodeLogsCommand } from '@libs/contracts/commands';
+
 import { NodesQueuesService } from '@queue/_nodes';
 
 import {
@@ -39,6 +43,7 @@ export class NodesService {
         private readonly queryBus: QueryBus,
         private readonly commandBus: CommandBus,
         private readonly nodesSystemCacheService: NodesSystemCacheService,
+        private readonly axios: AxiosService,
     ) {}
 
     public async createNode(body: CreateNodeBodyDto): Promise<TResult<NodeResponseModel>> {
@@ -141,6 +146,39 @@ export class NodesService {
         } catch (error) {
             this.logger.error(error);
             return fail(ERRORS.GET_ALL_NODES_ERROR);
+        }
+    }
+
+    /**
+     * Очистка логов Xray на ноде.
+     *
+     * Выполняется синхронно, без очереди: операция быстрая (сигнал на ротацию
+     * и удаление архивов) и администратору полезно сразу увидеть результат.
+     * Действия вроде restart идут через очередь, потому что длятся долго.
+     */
+    public async clearNodeLogs(
+        uuid: string,
+    ): Promise<TResult<ClearNodeLogsCommand.Response['response']>> {
+        try {
+            const node = await this.nodesRepository.findByUUID(uuid);
+            if (!node) {
+                return fail(ERRORS.NODE_NOT_FOUND);
+            }
+
+            const result = await this.axios.clearXrayLogs({
+                address: node.address,
+                port: node.port,
+                proxyUrl: node.proxyUrl,
+            });
+
+            if (!result.isOk) {
+                return fail(ERRORS.CLEAR_NODE_LOGS_ERROR);
+            }
+
+            return ok(result.response);
+        } catch (error) {
+            this.logger.error(`Failed to clear logs on node ${uuid}: ${error}`);
+            return fail(ERRORS.CLEAR_NODE_LOGS_ERROR);
         }
     }
 

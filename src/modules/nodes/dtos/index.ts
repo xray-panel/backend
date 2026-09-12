@@ -1,3 +1,4 @@
+export * from './clear-node-logs.request.dto';
 export * from './create-node.request.dto';
 export * from './delete-node.dto';
 export * from './disable-node.request.dto';

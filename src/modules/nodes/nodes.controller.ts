@@ -17,6 +17,7 @@ import {
     DeleteNodeCommand,
     DisableNodeCommand,
     EnableNodeCommand,
+    ClearNodeLogsCommand,
     GetNodesCommand,
     GetNodesTagsCommand,
     GetNodeCommand,
@@ -37,6 +38,8 @@ import {
     DeleteNodeParamDto,
     DisableNodeParamDto,
     GetNodesResponseDto,
+    ClearNodeLogsParamDto,
+    ClearNodeLogsResponseDto,
     GetNodesTagsResponseDto,
     GetNodeParamDto,
     ProfileModificationBodyDto,
@@ -173,6 +176,22 @@ export class NodesController {
         const res = await this.nodesService.restartNode(param.uuid, body.forceRestart);
         errorHandler(res);
         return;
+    }
+
+    @Endpoint({
+        command: ClearNodeLogsCommand,
+        httpCode: HttpStatus.OK,
+        type: ClearNodeLogsResponseDto,
+    })
+    async clearNodeLogs(
+        @Param() param: ClearNodeLogsParamDto,
+    ): Promise<ClearNodeLogsResponseDto> {
+        const res = await this.nodesService.clearNodeLogs(param.uuid);
+
+        const data = errorHandler(res);
+        return {
+            response: data,
+        };
     }
 
     @Endpoint({

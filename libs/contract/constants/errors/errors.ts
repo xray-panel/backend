@@ -1294,4 +1294,9 @@ export const ERRORS = {
         message: 'Too many failed login attempts. Try again later.',
         httpCode: 429,
     },
+    CLEAR_NODE_LOGS_ERROR: {
+        code: 'A259',
+        message: 'Clear node logs error',
+        httpCode: 500,
+    },
 } as const;
