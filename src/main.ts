@@ -92,7 +92,7 @@ async function bootstrap(): Promise<void> {
                 //
                 // raw.githubusercontent.com остаётся только для двух
                 // admin-инициированных функций, подтягивающих содержимое из
-                // репозиториев Remnawave: список шаблонов
+                // репозиториев апстрима: список шаблонов
                 // (shared/constants/templates/template-list-links.tsx) и статьи
                 // справки (shared/_modals/universal/help-drawer). Они подлежат
                 // переводу на собственный репозиторий XPANEL, после чего эту
