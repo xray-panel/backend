@@ -76,4 +76,17 @@ export class AdminRepository implements ICrud<AdminEntity> {
         const result = await this.prisma.tx.admin.count({ where: dto });
         return result;
     }
+
+    /**
+     * Блокирует изменения таблицы администраторов до конца текущей транзакции.
+     *
+     * Нужно, чтобы проверка «останется ли хоть один администратор» и удаление
+     * были одной операцией: иначе два одновременных удаления могут опустошить
+     * таблицу. EXCLUSIVE не конфликтует с ACCESS SHARE, поэтому обычное чтение
+     * (например, при входе в панель) блокировкой не задевается — сериализуются
+     * только изменения.
+     */
+    public async lockAdmins(): Promise<void> {
+        await this.prisma.tx.$executeRaw`LOCK TABLE admin IN EXCLUSIVE MODE`;
+    }
 }

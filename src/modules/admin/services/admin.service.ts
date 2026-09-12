@@ -1,3 +1,5 @@
+import { Transactional } from '@nestjs-cls/transactional';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
@@ -22,6 +24,7 @@ import { CountAdminsByRoleQuery } from '../queries/count-admins-by-role';
 import { GetAdminByUsernameQuery } from '../queries/get-admin-by-username';
 import { GetAdminByUuidQuery } from '../queries/get-admin-by-uuid';
 import { GetAdminsQuery } from '../queries/get-admins';
+import { AdminRepository } from '../repositories/admin.repository';
 
 @Injectable()
 export class AdminService {
@@ -31,6 +34,7 @@ export class AdminService {
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus: QueryBus,
+        private readonly adminRepository: AdminRepository,
         private readonly configService: TypedConfigService,
     ) {
         this.appSecret = this.configService.getOrThrow('APP_SECRET');
@@ -126,8 +130,27 @@ export class AdminService {
             return fail(ERRORS.CANNOT_DELETE_LAST_ADMIN);
         }
 
+        return this.deleteAdminAtomic(admin.uuid);
+    }
+
+    /**
+     * Удаление под блокировкой таблицы.
+     *
+     * Проверка количества и удаление обязаны быть одной операцией: между ними
+     * два одновременных удаления успели бы обнулить таблицу администраторов.
+     */
+    @Transactional()
+    private async deleteAdminAtomic(adminUuid: string): Promise<TResult<boolean>> {
+        await this.adminRepository.lockAdmins();
+
+        const adminCount = await this.adminRepository.countByCriteria({ role: ROLE.ADMIN });
+
+        if (adminCount <= 1) {
+            return fail(ERRORS.CANNOT_DELETE_LAST_ADMIN);
+        }
+
         const result = await this.commandBus.execute<DeleteAdminCommand, TResult<boolean>>(
-            new DeleteAdminCommand(admin.uuid),
+            new DeleteAdminCommand(adminUuid),
         );
 
         if (!result.isOk) {
