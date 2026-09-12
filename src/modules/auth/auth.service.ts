@@ -6,8 +6,6 @@ import {
 } from '@simplewebauthn/server';
 import * as arctic from 'arctic';
 import { AxiosError } from 'axios';
-import { createHmac, randomBytes, scrypt, timingSafeEqual } from 'node:crypto';
-import { promisify } from 'node:util';
 import { catchError, firstValueFrom } from 'rxjs';
 
 import { HttpService } from '@nestjs/axios';
@@ -17,6 +15,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { JwtService } from '@nestjs/jwt';
 
 import { TypedConfigService } from '@common/config/app-config';
+import { hashPassword, verifyPassword } from '@common/helpers/password/password.helper';
 import { RawCacheService } from '@common/raw-cache';
 import { fail, ok, TResult } from '@common/types';
 import { AUTH_ROUTES } from '@libs/contracts/api';
@@ -51,8 +50,6 @@ import {
     OAuth2CallbackResponseModel,
     GetStatusResponseModel,
 } from './model';
-
-const scryptAsync = promisify(scrypt);
 const REMNAWAVE_CUSTOM_CLAIM_KEY = 'remnawaveAccess';
 const OAUTH2_SCOPES = ['email', 'profile', 'openid'];
 
@@ -274,20 +271,6 @@ export class AuthService {
                     new GetStatusResponseModel({
                         isLoginAllowed: false,
                         isRegisterAllowed: true,
-                        authentication: null,
-                        branding: remnawaveSettings.brandingSettings,
-                    }),
-                );
-            }
-
-            if (adminCount.response > 1) {
-                this.logger.warn(
-                    'Multiple admins found. This should not be possible. Restart XPANEL to clear unknown admins.',
-                );
-                return ok(
-                    new GetStatusResponseModel({
-                        isLoginAllowed: false,
-                        isRegisterAllowed: false,
                         authentication: null,
                         branding: remnawaveSettings.brandingSettings,
                     }),
@@ -804,32 +787,12 @@ export class AuthService {
         );
     }
 
-    private applySecretHmac(password: string, secret: string): Buffer {
-        const hmac = createHmac('sha256', secret);
-        hmac.update(password);
-        return hmac.digest();
-    }
-
     private async hashPassword(plainPassword: string): Promise<string> {
-        const hmacResult = this.applySecretHmac(plainPassword, this.jwtSecret);
-
-        const salt = randomBytes(16).toString('hex');
-
-        const derivedKey = (await scryptAsync(hmacResult.toString('hex'), salt, 64)) as Buffer;
-        const hash = derivedKey.toString('hex');
-
-        return `${salt}:${hash}`;
+        return hashPassword(plainPassword, this.jwtSecret);
     }
 
     private async verifyPassword(plainPassword: string, storedHash: string): Promise<boolean> {
-        const hmacResult = this.applySecretHmac(plainPassword, this.jwtSecret);
-
-        const [salt, hash] = storedHash.split(':');
-
-        const derivedKey = (await scryptAsync(hmacResult.toString('hex'), salt, 64)) as Buffer;
-        const calculatedHash = derivedKey.toString('hex');
-
-        return timingSafeEqual(Buffer.from(calculatedHash), Buffer.from(hash));
+        return verifyPassword(plainPassword, storedHash, this.jwtSecret);
     }
 
     private async createAdmin(dto: CreateAdminCommand): Promise<TResult<AdminEntity>> {
