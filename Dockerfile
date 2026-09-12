@@ -18,7 +18,7 @@ ARG MIHOMO_SCHEMA_URL=https://github.com/dongchengjie/meta-json-schema/releases/
 # Зеркало артефактов валидатора в собственном репозитории. Раньше они
 # скачивались с validator.remna.dev без единой проверки, включая 59 МБ
 # исполняемого кода. Теперь адреса наши и каждый файл сверяется по sha256.
-ARG VALIDATOR_RELEASE=https://github.com/xray-panel/releases/download/validator-v1
+ARG VALIDATOR_RELEASE=https://github.com/xray-panel/backend/releases/download/validator-v1
 ARG MAIN_WASM_SHA256=45b31aca38f8de5febdb4ef032f691e033d0b7139ba04bf792ef3a57b7c595cc
 ARG WASM_EXEC_SHA256=0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14
 ARG SINGBOX_SCHEMA_SHA256=a8e691ed3565f6ae02af19a992c0cb8d3c0e98e79e8e921819740d66f75ed9a8
