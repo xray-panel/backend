@@ -8,6 +8,7 @@ export class CleanOldLogsCommand extends Command<ILogCleanupCounts> {
         public readonly nodesUsageHistoryDays: number,
         public readonly hwidUserDevicesDays: number,
         public readonly subscriptionRequestHistoryDays: number,
+        public readonly auditLogDays: number,
     ) {
         super();
     }

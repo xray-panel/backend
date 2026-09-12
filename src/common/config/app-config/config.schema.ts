@@ -120,6 +120,14 @@ export const configSchema = z
                 (val) => Number.isInteger(val) && val > 0,
                 'HWID_DEVICES_RETENTION_DAYS must be a positive integer',
             ),
+        AUDIT_LOG_RETENTION_DAYS: z
+            .string()
+            .default('180')
+            .transform((val) => parseInt(val, 10))
+            .refine(
+                (val) => Number.isInteger(val) && val > 0,
+                'AUDIT_LOG_RETENTION_DAYS must be a positive integer',
+            ),
         SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS: z
             .string()
             .default('30')

@@ -72,6 +72,7 @@ export class ServiceQueueProcessor extends WorkerHost {
                         this.configService.getOrThrow(
                             'SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS',
                         ),
+                        this.configService.getOrThrow('AUDIT_LOG_RETENTION_DAYS'),
                     ),
                 )) as ILogCleanupCounts;
 

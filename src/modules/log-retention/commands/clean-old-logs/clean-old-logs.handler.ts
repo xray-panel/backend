@@ -18,6 +18,7 @@ export class CleanOldLogsHandler implements ICommandHandler<CleanOldLogsCommand>
             nodesUsageHistory: 0,
             hwidUserDevices: 0,
             subscriptionRequestHistory: 0,
+            adminAuditLog: 0,
         };
 
         // Каждая таблица очищается независимо: сбой на одной не должен
@@ -40,10 +41,15 @@ export class CleanOldLogsHandler implements ICommandHandler<CleanOldLogsCommand>
                 ),
         );
 
+        counts.adminAuditLog = await this.run('admin_audit_log', () =>
+            this.logRetentionRepository.deleteOldAdminAuditLog(command.auditLogDays),
+        );
+
         this.logger.log(
             `Log retention finished: nodes_usage_history=${counts.nodesUsageHistory}, ` +
                 `hwid_user_devices=${counts.hwidUserDevices}, ` +
-                `user_subscription_request_history=${counts.subscriptionRequestHistory}`,
+                `user_subscription_request_history=${counts.subscriptionRequestHistory}, ` +
+                `admin_audit_log=${counts.adminAuditLog}`,
         );
 
         return counts;

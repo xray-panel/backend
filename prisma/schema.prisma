@@ -664,3 +664,23 @@ model TorrentBlockerReports {
 
   @@map("torrent_blocker_reports")
 }
+
+model AdminAuditLog {
+  id            BigInt   @id @default(autoincrement())
+  adminUuid     String?  @map("admin_uuid") @db.Uuid
+  adminUsername String   @map("admin_username")
+  action        String   @map("action")
+  resource      String   @map("resource")
+  status        String   @map("status")
+  statusCode    Int      @map("status_code")
+  requestIp     String?  @map("request_ip")
+  userAgent     String?  @map("user_agent")
+  durationMs    Int?     @map("duration_ms")
+  details       Json?    @map("details")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@index([adminUsername, createdAt])
+  @@map("admin_audit_log")
+}

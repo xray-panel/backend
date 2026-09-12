@@ -8,6 +8,7 @@ export interface ILogCleanupCounts {
     nodesUsageHistory: number;
     hwidUserDevices: number;
     subscriptionRequestHistory: number;
+    adminAuditLog: number;
 }
 
 /**
@@ -46,6 +47,17 @@ export class LogRetentionRepository {
         return await this.prisma.tx.$executeRaw<number>(Prisma.sql`
             DELETE FROM hwid_user_devices
             WHERE updated_at < NOW() - make_interval(days => ${days}::int)
+        `);
+    }
+
+    /**
+     * Журнал действий администраторов. Срок хранения больше остальных: это
+     * материал для разбора инцидентов, а не персональные данные пользователей.
+     */
+    public async deleteOldAdminAuditLog(days: number): Promise<number> {
+        return await this.prisma.tx.$executeRaw<number>(Prisma.sql`
+            DELETE FROM admin_audit_log
+            WHERE created_at < NOW() - make_interval(days => ${days}::int)
         `);
     }
 

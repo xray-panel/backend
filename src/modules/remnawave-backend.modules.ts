@@ -5,6 +5,7 @@ import { isRestApi, isScheduler } from '@common/utils/startup-app';
 
 import { AdminModule } from './admin/admin.module';
 import { ApiTokensModule } from './api-tokens/api-tokens.module';
+import { AuditLogModule } from './audit-log/audit-log.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigProfileModule } from './config-profiles/config-profile.module';
 import { ConnectionsModule } from './connections/connections.module';
@@ -37,6 +38,7 @@ import { UsersModule } from './users/users.module';
 @Module({
     imports: [
         RemnawaveSettingsModule,
+        AuditLogModule,
         ConditionalModule.registerWhen(AdminModule, () => isRestApi()),
         ConditionalModule.registerWhen(AuthModule, () => isRestApi()),
         ConditionalModule.registerWhen(SubscriptionPageConfigModule, () => isRestApi()),
