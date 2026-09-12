@@ -35,11 +35,11 @@ export class GetMetadataResponseModel {
             backend: {
                 commitSha: data.backendCommitSha,
                 branch: data.branch,
-                commitUrl: `https://github.com/CHANGE-ME/xpanel/backend/commit/${data.backendCommitSha}`,
+                commitUrl: `https://github.com/kitten443/xpanel/backend/commit/${data.backendCommitSha}`,
             },
             frontend: {
                 commitSha: data.frontendCommitSha,
-                commitUrl: `https://github.com/CHANGE-ME/xpanel/frontend/commit/${data.frontendCommitSha}`,
+                commitUrl: `https://github.com/kitten443/xpanel/frontend/commit/${data.frontendCommitSha}`,
             },
         };
     }

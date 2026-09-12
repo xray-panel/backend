@@ -58,7 +58,7 @@ const bullBoard = [
                     },
                     {
                         text: 'Telegram',
-                        url: 'https://github.com/CHANGE-ME/xpanel',
+                        url: 'https://github.com/kitten443/xpanel',
                     },
                 ],
             },

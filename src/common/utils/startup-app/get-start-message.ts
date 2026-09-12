@@ -18,7 +18,7 @@ export async function getStartMessage() {
             [
                 chalk.green('💬 Community') +
                     chalk.gray(' ······ ') +
-                    chalk.white('https://github.com/CHANGE-ME/xpanel'),
+                    chalk.white('https://github.com/kitten443/xpanel'),
             ],
             [chalk.gray('─'.repeat(60))],
             [

@@ -28,8 +28,8 @@ const description = `
 XPANEL is a powerful proxy management tool, built on top of Xray-core, with a focus on simplicity and ease of use.
 
 ## Resources
-* https://github.com/CHANGE-ME/xpanel
-* https://github.com/CHANGE-ME/xpanel
+* https://github.com/kitten443/xpanel
+* https://github.com/kitten443/xpanel
 * https://docs.xraypanel.dev
 `;
 
@@ -61,7 +61,7 @@ export async function createOpenApiDocumentFactory(
         )
         .setDescription(description)
         .setVersion(pkg.version!)
-        .setLicense('AGPL-3.0', 'https://github.com/CHANGE-ME/xpanel/panel?tab=AGPL-3.0-1-ov-file')
+        .setLicense('AGPL-3.0', 'https://github.com/kitten443/xpanel/panel?tab=AGPL-3.0-1-ov-file')
         .addGlobalResponse({
             status: 404,
             description: 'Resource not found',

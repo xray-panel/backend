@@ -7,7 +7,7 @@
 #
 # To disable a specific event, uncomment it and set the channel to false.
 #
-# Full event list: https://github.com/CHANGE-ME/xpanel/backend/blob/main/libs/contract/constants/events/events.ts
+# Full event list: https://github.com/kitten443/xpanel/backend/blob/main/libs/contract/constants/events/events.ts
 #
 # ──────────────────────────────────────────────────────────────────────────────
 # Example:

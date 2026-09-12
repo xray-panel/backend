@@ -9,15 +9,15 @@
     "performance",
     "set"
   ],
-  "homepage": "https://github.com/CHANGE-ME/xpanel",
+  "homepage": "https://github.com/kitten443/xpanel",
   "bugs": {
-    "url": "https://github.com/CHANGE-ME/xpanel/backend/issues"
+    "url": "https://github.com/kitten443/xpanel/backend/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "REMNAWAVE <github.com/remnawave>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CHANGE-ME/xpanel/backend"
+    "url": "https://github.com/kitten443/xpanel/backend"
   },
   "files": [
     "build/**/*"

@@ -2,7 +2,7 @@ FROM alpine:3.19 AS frontend
 WORKDIR /opt/frontend
 
 ARG BRANCH=main
-ARG FRONTEND_URL=https://github.com/CHANGE-ME/xpanel/frontend/releases/latest/download/remnawave-frontend.zip
+ARG FRONTEND_URL=https://github.com/kitten443/xpanel/frontend/releases/latest/download/remnawave-frontend.zip
 ARG SINGBOX_SCHEMA_URL=https://github.com/BlackDuty/sing-box-schema/releases/download/v1.13.13/schema.json
 ARG MIHOMO_SCHEMA_URL=https://github.com/dongchengjie/meta-json-schema/releases/download/v1.19.29/meta-json-schema.json
 
@@ -57,8 +57,8 @@ FROM node:24.20-trixie-slim
 
 LABEL org.opencontainers.image.title="XPANEL"
 LABEL org.opencontainers.image.description="Powerful proxy management tool"
-LABEL org.opencontainers.image.url="https://github.com/CHANGE-ME/xpanel/backend"
-LABEL org.opencontainers.image.source="https://github.com/CHANGE-ME/xpanel/backend"
+LABEL org.opencontainers.image.url="https://github.com/kitten443/xpanel/backend"
+LABEL org.opencontainers.image.source="https://github.com/kitten443/xpanel/backend"
 LABEL org.opencontainers.image.vendor="XPANEL"
 LABEL org.opencontainers.image.licenses="AGPL-3.0"
 LABEL org.opencontainers.image.documentation="https://docs.xraypanel.dev"
