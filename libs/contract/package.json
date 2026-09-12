@@ -1,17 +1,17 @@
 {
-  "name": "@remnawave/backend-contract",
+  "name": "@xpanel/backend-contract",
   "version": "3.4.13",
-  "description": "A contract library for Remnawave Backend. It can be used in backend and frontend.",
+  "description": "A contract library for XPANEL Backend. It can be used in backend and frontend.",
   "keywords": [],
-  "homepage": "https://github.com/remnawave",
+  "homepage": "https://github.com/CHANGE-ME/xpanel",
   "bugs": {
-    "url": "https://github.com/remnawave/backend/issues"
+    "url": "https://github.com/CHANGE-ME/xpanel/backend/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "REMNAWAVE <github.com/remnawave>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remnawave/backend.git"
+    "url": "git+https://github.com/CHANGE-ME/xpanel/backend.git"
   },
   "files": [
     "build/**/*"

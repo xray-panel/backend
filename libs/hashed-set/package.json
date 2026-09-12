@@ -1,5 +1,5 @@
 {
-  "name": "@remnawave/hashed-set",
+  "name": "@xpanel/hashed-set",
   "version": "0.0.4",
   "description": "A high-performance Set implementation with hash-based equality comparison for fast set operations.",
   "keywords": [
@@ -9,15 +9,15 @@
     "performance",
     "set"
   ],
-  "homepage": "https://github.com/remnawave",
+  "homepage": "https://github.com/CHANGE-ME/xpanel",
   "bugs": {
-    "url": "https://github.com/remnawave/backend/issues"
+    "url": "https://github.com/CHANGE-ME/xpanel/backend/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "REMNAWAVE <github.com/remnawave>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/remnawave/backend"
+    "url": "https://github.com/CHANGE-ME/xpanel/backend"
   },
   "files": [
     "build/**/*"

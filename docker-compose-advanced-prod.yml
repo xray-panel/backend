@@ -1,5 +1,5 @@
 x-base: &base
-  image: remnawave/backend:3
+  image: xpanel/backend:3
 
 x-common: &common
   ulimits:
@@ -8,7 +8,7 @@ x-common: &common
       hard: 1048576
   restart: always
   networks:
-    - remnawave-network
+    - xpanel-network
 
 x-logging: &logging
   logging:
@@ -24,7 +24,7 @@ services:
   remnawave-rest-api: # Scaling is OK
     <<: [*base, *common, *logging, *env]
     container_name: 'remnawave-rest-api'
-    hostname: remnawave-rest-api
+    hostname: xpanel-rest-api
     entrypoint: []
     command: 'pm2-runtime start ecosystem.config.js --env production --only remnawave-api' # Overrides CMD from Dockerfile
     depends_on:
@@ -40,7 +40,7 @@ services:
   remnawave-scheduler: # Do not scale this service!
     <<: [*base, *common, *logging, *env]
     container_name: 'remnawave-scheduler'
-    hostname: remnawave-scheduler
+    hostname: xpanel-scheduler
     entrypoint: ['/bin/sh', 'docker-entrypoint.sh'] # Migrations, seeding, etc. IMPORTANT: Entrypoint needs to be in one of services. Its applies migrations and seeding database!
     command: 'pm2-runtime start ecosystem.config.js --env production --only remnawave-scheduler' # Overrides CMD from Dockerfile
     depends_on:
@@ -60,7 +60,7 @@ services:
   remnawave-processor: # Scaling is OK
     <<: [*base, *common, *logging, *env]
     container_name: 'remnawave-processor'
-    hostname: remnawave-processor
+    hostname: xpanel-processor
     entrypoint: []
     command: 'pm2-runtime start ecosystem.config.js --env production --only remnawave-jobs' # Overrides CMD from Dockerfile
     depends_on:
@@ -74,7 +74,7 @@ services:
   remnawave-db:
     image: postgres:18.4
     container_name: 'remnawave-db'
-    hostname: remnawave-db
+    hostname: xpanel-db
     shm_size: 512mb
     <<: [*common, *logging, *env]
 
@@ -95,8 +95,8 @@ services:
 
   remnawave-redis:
     image: valkey/valkey:9-alpine
-    container_name: remnawave-redis
-    hostname: remnawave-redis
+    container_name: xpanel-redis
+    hostname: xpanel-redis
     <<: [*common, *logging]
     command: >
       valkey-server
@@ -111,8 +111,8 @@ services:
       retries: 3
 
 networks:
-  remnawave-network:
-    name: remnawave-network
+  xpanel-network:
+    name: xpanel-network
     driver: bridge
     external: false
 

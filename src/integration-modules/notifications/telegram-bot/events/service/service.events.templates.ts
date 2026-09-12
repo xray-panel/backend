@@ -19,19 +19,19 @@ export const SERVICE_EVENTS_TEMPLATES: Record<TServiceEvents, ServiceEventsTempl
         message: `
 <tg-emoji emoji-id='5418304400152096012'>🌊</tg-emoji> <b>#panel_started</b>
 ${separator}
-<tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> Remnawave v${e.data.panelVersion} is up and running.
+<tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> XPANEL v${e.data.panelVersion} is up and running.
 
 <tg-emoji emoji-id='5463036196777128277'>🦋</tg-emoji> Join community: @remnawave
-<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.rw`,
+<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.CHANGE-ME.example`,
         keyboard: [
             {
-                url: 'https://github.com/remnawave/panel',
+                url: 'https://github.com/CHANGE-ME/xpanel/panel',
                 text: 'Leave a star',
                 customEmoji: '5258039825805624495',
             },
             {
-                url: 'https://docs.rw/docs/donate/',
-                text: 'Support Remnawave',
+                url: 'https://docs.CHANGE-ME.example/docs/donate/',
+                text: 'Support XPANEL',
                 customEmoji: '5404408875279458778',
                 style: 'primary',
             },

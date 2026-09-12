@@ -34,9 +34,9 @@ const bullBoard = [
         adapter: ExpressAdapter,
         boardOptions: {
             uiConfig: {
-                boardTitle: 'Remnawave',
+                boardTitle: 'XPANEL',
                 boardLogo: {
-                    path: 'https://docs.rw/img/logo.svg',
+                    path: 'https://docs.CHANGE-ME.example/img/logo.svg',
                     width: 32,
                     height: 32,
                 },
@@ -53,12 +53,12 @@ const bullBoard = [
                         url: '/dashboard',
                     },
                     {
-                        text: 'Remnawave',
-                        url: 'https://docs.rw',
+                        text: 'XPANEL',
+                        url: 'https://docs.CHANGE-ME.example',
                     },
                     {
                         text: 'Telegram',
-                        url: 'https://t.me/remnawave',
+                        url: 'https://github.com/CHANGE-ME/xpanel',
                     },
                 ],
             },

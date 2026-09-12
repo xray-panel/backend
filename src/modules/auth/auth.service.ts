@@ -273,7 +273,7 @@ export class AuthService {
 
             if (adminCount.response > 1) {
                 this.logger.warn(
-                    'Multiple admins found. This should not be possible. Restart Remnawave to clear unknown admins.',
+                    'Multiple admins found. This should not be possible. Restart XPANEL to clear unknown admins.',
                 );
                 return ok(
                     new GetStatusResponseModel({
@@ -675,7 +675,7 @@ export class AuthService {
                 .get<{ email: string; primary: boolean }[]>('https://api.github.com/user/emails', {
                     headers: {
                         Authorization: `Bearer ${tokens.accessToken()}`,
-                        'User-Agent': 'Remnawave',
+                        'User-Agent': 'XPANEL',
                     },
                 })
                 .pipe(
@@ -706,7 +706,7 @@ export class AuthService {
                 .get<{ default_email: string }>('https://login.yandex.ru/info?format=json', {
                     headers: {
                         Authorization: `Bearer ${tokens.accessToken()}`,
-                        'User-Agent': 'Remnawave',
+                        'User-Agent': 'XPANEL',
                     },
                 })
                 .pipe(

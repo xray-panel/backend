@@ -1,20 +1,20 @@
-## Remnawave Backend
+## XPANEL Backend
 
-Backend for Remnawave Panel.
+Backend for XPANEL Panel.
 
-Learn more about Remnawave Panel [here](https://docs.rw/).
+Learn more about XPANEL Panel [here](https://docs.CHANGE-ME.example/).
 
 # Contributors
 
 We ❤️‍🔥 contributors! If you'd like to contribute, please check out our [Contributing Guidelines](CONTRIBUTING.md) and feel free to submit a pull request or open an issue.
 
-Check [open issues](https://github.com/remnawave/panel/issues) to help the progress of this project.
+Check [open issues](https://github.com/CHANGE-ME/xpanel/panel/issues) to help the progress of this project.
 
 <p align="center">
-Thanks to the all contributors who have helped improve Remnawave:
+Thanks to the all contributors who have helped improve XPANEL:
 </p>
 <p align="center">
-<a href="https://github.com/remnawave/backend/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=remnawave/backend" />
+<a href="https://github.com/CHANGE-ME/xpanel/backend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=xpanel/backend" />
 </a>
 </p>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const DOCS_LINK = `\n\n[📖 Documentation](https://docs.rw/docs/learn/node-plugins)`;
+const DOCS_LINK = `\n\n[📖 Documentation](https://docs.CHANGE-ME.example/docs/learn/node-plugins)`;
 
 // https://github.com/colinhacks/zod/issues/5944
 const IPV6 = z.regexes.ipv6.source.slice(1, -1);
@@ -131,7 +131,7 @@ export const TorrentBlockerPluginSchema = z.object({
         .optional()
         .meta({
             title: 'Rule Placement',
-            markdownDescription: `The position of the rule which Remnawave will inject into the routing.rules array. The default is 0. ${DOCS_LINK}`,
+            markdownDescription: `The position of the rule which XPANEL will inject into the routing.rules array. The default is 0. ${DOCS_LINK}`,
         }),
 });
 

@@ -25,12 +25,12 @@ import {
 } from './extra-models';
 
 const description = `
-Remnawave is a powerful proxy management tool, built on top of Xray-core, with a focus on simplicity and ease of use.
+XPANEL is a powerful proxy management tool, built on top of Xray-core, with a focus on simplicity and ease of use.
 
 ## Resources
-* https://t.me/remnawave
-* https://github.com/remnawave
-* https://docs.rw
+* https://github.com/CHANGE-ME/xpanel
+* https://github.com/CHANGE-ME/xpanel
+* https://docs.CHANGE-ME.example
 `;
 
 export async function createOpenApiDocumentFactory(
@@ -39,7 +39,7 @@ export async function createOpenApiDocumentFactory(
     const pkg = await readPackageJSON();
 
     const configSwagger = new DocumentBuilder()
-        .setTitle(`Remnawave API v${pkg.version}`)
+        .setTitle(`XPANEL API v${pkg.version}`)
         .addBearerAuth(
             {
                 type: 'http',
@@ -61,7 +61,7 @@ export async function createOpenApiDocumentFactory(
         )
         .setDescription(description)
         .setVersion(pkg.version!)
-        .setLicense('AGPL-3.0', 'https://github.com/remnawave/panel?tab=AGPL-3.0-1-ov-file')
+        .setLicense('AGPL-3.0', 'https://github.com/CHANGE-ME/xpanel/panel?tab=AGPL-3.0-1-ov-file')
         .addGlobalResponse({
             status: 404,
             description: 'Resource not found',

@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY_IMAGE: remnawave/backend
-  GHCR_IMAGE: ghcr.io/remnawave/backend
+  REGISTRY_IMAGE: xpanel/backend
+  GHCR_IMAGE: ghcr.io/xpanel/backend
   IMAGE_TAG: dev
 
 jobs:
@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
           echo "build_time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
-          echo "frontend_commit=$(curl -s https://api.github.com/repos/remnawave/frontend/commits/${{ github.ref_name }} | jq -r '.sha')" >> $GITHUB_OUTPUT
+          echo "frontend_commit=$(curl -s https://api.github.com/repos/xpanel/frontend/commits/${{ github.ref_name }} | jq -r '.sha')" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v7
@@ -71,7 +71,7 @@ jobs:
             ${{ env.REGISTRY_IMAGE }}:${{ env.IMAGE_TAG }}
             ${{ env.GHCR_IMAGE }}:${{ env.IMAGE_TAG }}
           build-args: |
-            FRONTEND_URL=https://github.com/remnawave/frontend/releases/download/dev-build/remnawave-frontend.zip
+            FRONTEND_URL=https://github.com/CHANGE-ME/xpanel/frontend/releases/download/dev-build/remnawave-frontend.zip
             BRANCH=dev
             __RW_METADATA_VERSION=${{ steps.meta.outputs.version }}
             __RW_METADATA_GIT_BRANCH=${{ github.ref_name }}

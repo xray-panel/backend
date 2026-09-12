@@ -1,17 +1,17 @@
 {
-  "name": "@remnawave/node-plugins",
+  "name": "@xpanel/node-plugins",
   "version": "0.8.2",
-  "description": "A library for Remnawave Node Plugins.",
+  "description": "A library for XPANEL Node Plugins.",
   "keywords": [],
-  "homepage": "https://github.com/remnawave",
+  "homepage": "https://github.com/CHANGE-ME/xpanel",
   "bugs": {
-    "url": "https://github.com/remnawave/backend/issues"
+    "url": "https://github.com/CHANGE-ME/xpanel/backend/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "REMNAWAVE <github.com/remnawave>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/remnawave/backend.git"
+    "url": "git+https://github.com/CHANGE-ME/xpanel/backend.git"
   },
   "files": [
     "build/**/*"

@@ -5,7 +5,7 @@ x-common: &common
       hard: 1048576
   restart: always
   networks:
-    - remnawave-network
+    - xpanel-network
 
 x-logging: &logging
   logging:
@@ -19,9 +19,9 @@ x-env: &env
 
 services:
   remnawave:
-    image: remnawave/backend:3
-    container_name: remnawave
-    hostname: remnawave
+    image: xpanel/backend:3
+    container_name: xpanel
+    hostname: xpanel
     <<: [*common, *logging, *env]
     volumes:
       - valkey-socket:/var/run/valkey
@@ -42,8 +42,8 @@ services:
 
   remnawave-db:
     image: postgres:18.4
-    container_name: remnawave-db
-    hostname: remnawave-db
+    container_name: xpanel-db
+    hostname: xpanel-db
     shm_size: 512mb
     <<: [*common, *logging, *env]
     environment:
@@ -63,8 +63,8 @@ services:
 
   remnawave-redis:
     image: valkey/valkey:9-alpine
-    container_name: remnawave-redis
-    hostname: remnawave-redis
+    container_name: xpanel-redis
+    hostname: xpanel-redis
     <<: [*common, *logging]
     volumes:
       - valkey-socket:/var/run/valkey
@@ -84,8 +84,8 @@ services:
       retries: 3
 
 networks:
-  remnawave-network:
-    name: remnawave-network
+  xpanel-network:
+    name: xpanel-network
     driver: bridge
     external: false
 

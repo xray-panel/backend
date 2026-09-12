@@ -9,7 +9,7 @@ export namespace GetNodeSecretKeyCommand {
     export const endpointDetails = getEndpointDetails(
         KEYGEN_ROUTES.GET,
         'get',
-        'Get SECRET_KEY for Remnawave Node',
+        'Get SECRET_KEY for XPANEL Node',
         { scope: 'get', kind: 'read' },
     );
 

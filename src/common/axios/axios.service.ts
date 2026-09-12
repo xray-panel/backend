@@ -86,7 +86,7 @@ export class AxiosService {
 
             if (!result.isOk) {
                 throw new Error(
-                    'There are a problem with the JWT token. Please restart Remnawave.',
+                    'There are a problem with the JWT token. Please restart XPANEL.',
                 );
             }
 

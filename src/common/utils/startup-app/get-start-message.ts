@@ -8,17 +8,17 @@ export async function getStartMessage() {
     return table(
         [
             [chalk.blue('▰▱'.repeat(30))],
-            [chalk.blue(`🌊 Remnawave Backend v${pkg.version}`)],
+            [chalk.blue(`🌊 XPANEL Backend v${pkg.version}`)],
             [chalk.gray('─'.repeat(60))],
             [
                 chalk.cyan('📚 Documentation') +
                     chalk.gray(' ········ ') +
-                    chalk.white('https://docs.rw'),
+                    chalk.white('https://docs.CHANGE-ME.example'),
             ],
             [
                 chalk.green('💬 Community') +
                     chalk.gray(' ······ ') +
-                    chalk.white('https://t.me/remnawave'),
+                    chalk.white('https://github.com/CHANGE-ME/xpanel'),
             ],
             [chalk.gray('─'.repeat(60))],
             [

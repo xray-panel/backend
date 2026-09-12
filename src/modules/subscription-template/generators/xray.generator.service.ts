@@ -278,7 +278,7 @@ export class XrayGeneratorService {
         if (host.transportOptions.host) {
             params.host = host.transportOptions.host;
         }
-        // Remnawave extension: heartbeatPeriod
+        // XPANEL extension: heartbeatPeriod
         if (host.transportOptions.heartbeatPeriod) {
             params.heartbeatPeriod = host.transportOptions.heartbeatPeriod;
         }

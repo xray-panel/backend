@@ -173,10 +173,10 @@ export async function seedRemnawaveSettings(prisma: PrismaClient) {
             data: defaultRemnawaveSettings,
         });
 
-        consola.success('Remnawave settings seeded');
+        consola.success('XPANEL settings seeded');
 
         return;
     }
 
-    consola.success('Remnawave settings seeded');
+    consola.success('XPANEL settings seeded');
 }

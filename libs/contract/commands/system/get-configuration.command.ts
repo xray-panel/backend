@@ -10,7 +10,7 @@ export namespace GetConfigurationCommand {
     export const endpointDetails = getEndpointDetails(
         SYSTEM_ROUTES.CONFIGURATION,
         'get',
-        'Get Remnawave Configuration',
+        'Get XPANEL Configuration',
         { scope: 'configuration', kind: 'read' },
         'Returns some of the configuration values.',
     );

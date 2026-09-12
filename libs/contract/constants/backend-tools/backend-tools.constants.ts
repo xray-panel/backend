@@ -1,5 +1,5 @@
 export const BACKEND_TOOLS_AUTH_COOKIE_NAME = 'rw-tools';
-export const BACKEND_TOOLS_JWT_ISSUER = 'Remnawave';
+export const BACKEND_TOOLS_JWT_ISSUER = 'XPANEL';
 export const BACKEND_TOOLS_JWT_LIFETIME_HOURS = 2;
 export const BACKEND_TOOLS_JWT_SCOPES = {
     ACCESS: 'access',

@@ -28,7 +28,7 @@ jobs:
         id: frontend-prev-tag
         run: |
           gh auth login --with-token <<< "${{ secrets.TOKEN_GH_DEPLOY }}"
-          PREV_TAG=$(gh release list --repo remnawave/frontend --limit 2 | tail -n 1 | cut -f 1)
+          PREV_TAG=$(gh release list --repo xpanel/frontend --limit 2 | tail -n 1 | cut -f 1)
           echo "tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
       - name: Release branch
@@ -69,10 +69,10 @@ jobs:
           append_body: true
           make_latest: true
           body: |
-            # 🌊 Remnawave v${{ github.ref_name }}
+            # 🌊 XPANEL v${{ github.ref_name }}
 
             <p align="center">
-              <a href="https://t.me/remnawave" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/CHANGE-ME/xpanel" target="_blank" rel="noopener noreferrer">
                 <img src="https://img.shields.io/badge/Join%20community-Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Join community on Telegram" width="220" height="auto">
               </a>
             </p>
@@ -80,20 +80,20 @@ jobs:
             ---
 
             ## 💻 Frontend v${{ steps.frontend-tag.outputs.release }}
-            [![GitHub Release](https://img.shields.io/badge/release-v${{ steps.frontend-tag.outputs.release }}-blue.svg)](https://github.com/remnawave/frontend/releases/tag/${{ steps.frontend-tag.outputs.release }})
+            [![GitHub Release](https://img.shields.io/badge/release-v${{ steps.frontend-tag.outputs.release }}-blue.svg)](https://github.com/CHANGE-ME/xpanel/frontend/releases/tag/${{ steps.frontend-tag.outputs.release }})
 
             ### 📋 Changes
-            - [View full changelog](https://github.com/remnawave/frontend/releases/tag/${{ steps.frontend-tag.outputs.release }})
-            - [Compare changes (${{ steps.frontend-prev-tag.outputs.tag }}...${{ steps.frontend-tag.outputs.release }})](https://github.com/remnawave/frontend/compare/${{steps.frontend-prev-tag.outputs.tag}}...${{ steps.frontend-tag.outputs.release }})
+            - [View full changelog](https://github.com/CHANGE-ME/xpanel/frontend/releases/tag/${{ steps.frontend-tag.outputs.release }})
+            - [Compare changes (${{ steps.frontend-prev-tag.outputs.tag }}...${{ steps.frontend-tag.outputs.release }})](https://github.com/CHANGE-ME/xpanel/frontend/compare/${{steps.frontend-prev-tag.outputs.tag}}...${{ steps.frontend-tag.outputs.release }})
 
             ---
 
             ## 🖥️ Backend v${{ steps.backend-tag.outputs.latestTag }}
-            [![GitHub Release](https://img.shields.io/badge/release-v${{ steps.backend-tag.outputs.latestTag }}-blue.svg)](https://github.com/remnawave/backend/releases/tag/${{ steps.backend-tag.outputs.latestTag }})
+            [![GitHub Release](https://img.shields.io/badge/release-v${{ steps.backend-tag.outputs.latestTag }}-blue.svg)](https://github.com/CHANGE-ME/xpanel/backend/releases/tag/${{ steps.backend-tag.outputs.latestTag }})
 
             ### 📋 Changes
-            - [View full changelog](https://github.com/remnawave/backend/releases/tag/${{ steps.backend-tag.outputs.latestTag }})
-            - [Compare changes (${{ steps.backend-tag.outputs.previousTag }}...${{ steps.backend-tag.outputs.latestTag }})](https://github.com/remnawave/backend/compare/${{ steps.backend-tag.outputs.previousTag }}...${{ steps.backend-tag.outputs.latestTag }})
+            - [View full changelog](https://github.com/CHANGE-ME/xpanel/backend/releases/tag/${{ steps.backend-tag.outputs.latestTag }})
+            - [Compare changes (${{ steps.backend-tag.outputs.previousTag }}...${{ steps.backend-tag.outputs.latestTag }})](https://github.com/CHANGE-ME/xpanel/backend/compare/${{ steps.backend-tag.outputs.previousTag }}...${{ steps.backend-tag.outputs.latestTag }})
 
             ---
 
@@ -101,14 +101,14 @@ jobs:
 
             ### Latest:
             ```
-            remnawave/backend:latest
-            ghcr.io/remnawave/backend:latest
+            xpanel/backend:latest
+            ghcr.io/xpanel/backend:latest
             ```
 
             ### Versioned:
             ```
-            remnawave/backend:${{github.ref_name}}
-            ghcr.io/remnawave/backend:${{github.ref_name}}
+            xpanel/backend:${{github.ref_name}}
+            ghcr.io/xpanel/backend:${{github.ref_name}}
             ```
 
           draft: false

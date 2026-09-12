@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY_IMAGE: remnawave/backend
-  GHCR_IMAGE: ghcr.io/remnawave/backend
+  REGISTRY_IMAGE: xpanel/backend
+  GHCR_IMAGE: ghcr.io/xpanel/backend
 
 jobs:
   send-tg-msg:
@@ -70,7 +70,7 @@ jobs:
         run: |
           echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
           echo "build_time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
-          echo "frontend_commit=$(curl -s https://api.github.com/repos/remnawave/frontend/commits/${{ github.ref_name }} | jq -r '.sha')" >> $GITHUB_OUTPUT
+          echo "frontend_commit=$(curl -s https://api.github.com/repos/xpanel/frontend/commits/${{ github.ref_name }} | jq -r '.sha')" >> $GITHUB_OUTPUT
 
       - name: Build and push by digest
         id: build
@@ -190,10 +190,10 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            🌊 Remnawave Backend v${{ github.ref_name }}
+            🌊 XPANEL Backend v${{ github.ref_name }}
 
             <p align="center">
-              <a href="https://t.me/remnawave" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/CHANGE-ME/xpanel" target="_blank" rel="noopener noreferrer">
                 <img src="https://img.shields.io/badge/Join%20community-Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Join community on Telegram" width="220" height="auto">
               </a>
             </p>
@@ -201,12 +201,12 @@ jobs:
             ${{ env.CHANGELOG }}
 
             Latest Docker image:
-            - `remnawave/backend:latest`
-            - `ghcr.io/remnawave/backend:latest`
+            - `xpanel/backend:latest`
+            - `ghcr.io/xpanel/backend:latest`
 
             Docker images:
-            - `remnawave/backend:${{github.ref_name}}`
-            - `ghcr.io/remnawave/backend:${{github.ref_name}}`
+            - `xpanel/backend:${{github.ref_name}}`
+            - `ghcr.io/xpanel/backend:${{github.ref_name}}`
 
   send-finish-tg-msg:
     name: Send TG message

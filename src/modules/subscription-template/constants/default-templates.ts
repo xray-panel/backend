@@ -52,16 +52,16 @@ dns:
 proxies: # LEAVE THIS LINE!
 
 proxy-groups:
-  - name: '→ Remnawave'
+  - name: '→ XPANEL'
     type: 'select'
     proxies: # LEAVE THIS LINE!
 
 rules:
-  - MATCH,→ Remnawave
+  - MATCH,→ XPANEL
 `;
 
 export const DEFAULT_TEMPLATE_STASH = `proxy-groups:
-  - name: → Remnawave
+  - name: → XPANEL
     type: select
     proxies: # LEAVE THIS LINE!
 
@@ -95,7 +95,7 @@ rules:
   - PROCESS-NAME,uTorrent,DIRECT
   - PROCESS-NAME,WebTorrent,DIRECT
   - GEOIP,LAN,DIRECT
-  - MATCH,→ Remnawave
+  - MATCH,→ XPANEL
 script:
   shortcuts:
     quic: network == 'udp' and dst_port == 443
@@ -165,12 +165,12 @@ dns:
 proxies: # LEAVE THIS LINE!
 
 proxy-groups:
-  - name: '→ Remnawave'
+  - name: '→ XPANEL'
     type: 'select'
     proxies: # LEAVE THIS LINE!
 
 rules:
-  - MATCH,→ Remnawave`;
+  - MATCH,→ XPANEL`;
 
 export const DEFAULT_TEMPLATE_SINGBOX = {
     dns: {
@@ -252,7 +252,7 @@ export const DEFAULT_TEMPLATE_SINGBOX = {
     ],
     outbounds: [
         {
-            tag: '→ Remnawave',
+            tag: '→ XPANEL',
             type: 'selector',
             outbounds: null,
             interrupt_exist_connections: true,
