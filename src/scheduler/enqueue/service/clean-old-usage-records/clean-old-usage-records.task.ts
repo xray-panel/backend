@@ -19,22 +19,30 @@ export class CleanOldUsageRecordsTask implements OnApplicationBootstrap {
     ) {}
 
     public async onApplicationBootstrap() {
-        const isServiceEnabled = this.configService.getOrThrow('SERVICE_CLEAN_USAGE_HISTORY');
+        // Задача обслуживает два независимых вида очистки: историю трафика и
+        // таблицы с персональными данными. Она должна работать, если включён
+        // хотя бы один из них.
+        const isUsageHistoryEnabled = this.configService.getOrThrow('SERVICE_CLEAN_USAGE_HISTORY');
+        const isLogCleanupEnabled = this.configService.getOrThrow('SERVICE_CLEAN_OLD_LOGS');
+        const isServiceEnabled = isUsageHistoryEnabled || isLogCleanupEnabled;
 
         if (isServiceEnabled) {
             const job = this.schedulerRegistry.getCronJob(CleanOldUsageRecordsTask.CRON_NAME);
 
             if (job) {
                 job.start();
-                this.logger.log('Clean old usage records job enabled.');
+                this.logger.log(
+                    `Clean old records job enabled (usage history: ${isUsageHistoryEnabled}, ` +
+                        `old logs: ${isLogCleanupEnabled}).`,
+                );
             } else {
-                this.logger.warn('Clean old usage records job not found.');
+                this.logger.warn('Clean old records job not found.');
             }
         } else {
             try {
                 this.schedulerRegistry.deleteCronJob(CleanOldUsageRecordsTask.CRON_NAME);
 
-                this.logger.log('Clean old usage records job disabled.');
+                this.logger.log('Clean old records job disabled.');
             } catch (error) {
                 this.logger.error(
                     `Error deleting "${CleanOldUsageRecordsTask.CRON_NAME}" cron job: ${error}`,

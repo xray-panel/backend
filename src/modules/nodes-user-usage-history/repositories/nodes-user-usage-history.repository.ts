@@ -62,7 +62,7 @@ export class NodesUserUsageHistoryRepository implements ICrudHistoricalRecords<N
     public async cleanOldUsageRecords(retentionDays: number): Promise<number> {
         const query = Prisma.sql`
             DELETE FROM nodes_user_usage_history
-            WHERE created_at < NOW() - make_interval(days => ${retentionDays})
+            WHERE created_at < NOW() - make_interval(days => ${retentionDays}::int)
         `;
 
         return await this.prisma.tx.$executeRaw<number>(query);

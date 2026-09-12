@@ -103,6 +103,31 @@ export const configSchema = z
             ),
         SERVICE_DISABLE_USER_USAGE_RECORDS: booleanString('false'),
         SERVICE_DISABLE_SRH_RECORDS: booleanString('false'),
+        SERVICE_CLEAN_OLD_LOGS: booleanString('false'),
+        NODES_USAGE_HISTORY_RETENTION_DAYS: z
+            .string()
+            .default('90')
+            .transform((val) => parseInt(val, 10))
+            .refine(
+                (val) => Number.isInteger(val) && val > 0,
+                'NODES_USAGE_HISTORY_RETENTION_DAYS must be a positive integer',
+            ),
+        HWID_DEVICES_RETENTION_DAYS: z
+            .string()
+            .default('90')
+            .transform((val) => parseInt(val, 10))
+            .refine(
+                (val) => Number.isInteger(val) && val > 0,
+                'HWID_DEVICES_RETENTION_DAYS must be a positive integer',
+            ),
+        SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS: z
+            .string()
+            .default('30')
+            .transform((val) => parseInt(val, 10))
+            .refine(
+                (val) => Number.isInteger(val) && val > 0,
+                'SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS must be a positive integer',
+            ),
         EXPORT_TO_STREAM_ENABLED: booleanString('false'),
         EXPORT_TO_STREAM_MAXLEN: z
             .string()

@@ -5,6 +5,8 @@ import { Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
 import { TypedConfigService } from '@common/config/app-config';
+import { CleanOldLogsCommand } from '@modules/log-retention/commands/clean-old-logs';
+import { ILogCleanupCounts } from '@modules/log-retention/repositories/log-retention.repository';
 import { CleanOldUsageRecordsCommand } from '@modules/nodes-user-usage-history/commands/clean-old-usage-records';
 import { VacuumNodesUserUsageHistoryCommand } from '@modules/nodes-user-usage-history/commands/vacuum-nodes-user-usage-history';
 
@@ -43,22 +45,38 @@ export class ServiceQueueProcessor extends WorkerHost {
         try {
             await this.usersQueuesService.queues.updateUsersUsage.pause();
 
-            const retentionDays = this.configService.getOrThrow('USAGE_HISTORY_RETENTION_DAYS');
+            // Задача обслуживает два независимых вида очистки, поэтому каждая
+            // часть выполняется только при своём включённом переключателе.
+            if (this.configService.getOrThrow('SERVICE_CLEAN_USAGE_HISTORY')) {
+                const retentionDays = this.configService.getOrThrow('USAGE_HISTORY_RETENTION_DAYS');
 
-            this.logger.log(
-                `Deleting usage history older than ${retentionDays} days...`,
-            );
+                this.logger.log(`Deleting usage history older than ${retentionDays} days...`);
 
-            // Раньше здесь выполнялся TRUNCATE всей таблицы, из-за чего задача
-            // с названием «clean old usage records» уничтожала историю целиком
-            // вместо удаления старых записей.
-            const deleted = (await this.commandBus.execute(
-                new CleanOldUsageRecordsCommand(retentionDays),
-            )) as number;
+                // Раньше здесь выполнялся TRUNCATE всей таблицы, из-за чего
+                // задача с названием «clean old usage records» уничтожала
+                // историю целиком вместо удаления старых записей.
+                const deleted = (await this.commandBus.execute(
+                    new CleanOldUsageRecordsCommand(retentionDays),
+                )) as number;
 
-            await this.commandBus.execute(new VacuumNodesUserUsageHistoryCommand());
+                await this.commandBus.execute(new VacuumNodesUserUsageHistoryCommand());
 
-            this.logger.log(`Usage history cleanup finished, deleted ${deleted} records.`);
+                this.logger.log(`Usage history cleanup finished, deleted ${deleted} records.`);
+            }
+
+            if (this.configService.getOrThrow('SERVICE_CLEAN_OLD_LOGS')) {
+                const counts = (await this.commandBus.execute(
+                    new CleanOldLogsCommand(
+                        this.configService.getOrThrow('NODES_USAGE_HISTORY_RETENTION_DAYS'),
+                        this.configService.getOrThrow('HWID_DEVICES_RETENTION_DAYS'),
+                        this.configService.getOrThrow(
+                            'SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS',
+                        ),
+                    ),
+                )) as ILogCleanupCounts;
+
+                this.logger.log(`Old logs cleanup finished: ${JSON.stringify(counts)}`);
+            }
         } catch (error) {
             this.logger.error(
                 `Error handling "${ServiceJobNames.CLEAN_OLD_USAGE_RECORDS}" job: ${error}`,
