@@ -11,13 +11,26 @@ ARG FRONTEND_URL=https://github.com/kitten443/xpanel/frontend/releases/latest/do
 ARG SINGBOX_SCHEMA_URL=https://github.com/BlackDuty/sing-box-schema/releases/download/v1.13.13/schema.json
 ARG MIHOMO_SCHEMA_URL=https://github.com/dongchengjie/meta-json-schema/releases/download/v1.19.29/meta-json-schema.json
 
+# Зеркало артефактов валидатора в собственном репозитории. Раньше они
+# скачивались с validator.remna.dev без единой проверки, включая 59 МБ
+# исполняемого кода. Теперь адреса наши и каждый файл сверяется по sha256.
+ARG VALIDATOR_RELEASE=https://github.com/kitten443/xpanel/releases/download/validator-v1
+ARG MAIN_WASM_SHA256=45b31aca38f8de5febdb4ef032f691e033d0b7139ba04bf792ef3a57b7c595cc
+ARG WASM_EXEC_SHA256=0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14
+ARG SINGBOX_SCHEMA_SHA256=a8e691ed3565f6ae02af19a992c0cb8d3c0e98e79e8e921819740d66f75ed9a8
+ARG MIHOMO_SCHEMA_SHA256=04368aef934be14b5392e71ec4c33cd56999545918f462de1c1eee750815cc75
+
 RUN apk add --no-cache curl unzip ca-certificates \
-    && curl -L ${FRONTEND_URL} -o frontend.zip \
-    && unzip frontend.zip -d frontend_temp \
-    && curl -L https://validator.remna.dev/wasm_exec.js -o frontend_temp/dist/assets/wasm_exec.js \
-    && curl -L ${SINGBOX_SCHEMA_URL} -o frontend_temp/dist/assets/singbox.schema.json \
-    && curl -L ${MIHOMO_SCHEMA_URL} -o frontend_temp/dist/assets/mihomo.schema.json \
-    && curl -L https://validator.remna.dev/main.wasm -o frontend_temp/dist/assets/main.wasm
+    && curl -fsSL ${FRONTEND_URL} -o frontend.zip \
+    && unzip -q frontend.zip -d frontend_temp \
+    && curl -fsSL ${VALIDATOR_RELEASE}/wasm_exec.js -o frontend_temp/dist/assets/wasm_exec.js \
+    && echo "${WASM_EXEC_SHA256}  frontend_temp/dist/assets/wasm_exec.js" | sha256sum -c - \
+    && curl -fsSL ${VALIDATOR_RELEASE}/main.wasm -o frontend_temp/dist/assets/main.wasm \
+    && echo "${MAIN_WASM_SHA256}  frontend_temp/dist/assets/main.wasm" | sha256sum -c - \
+    && curl -fsSL ${SINGBOX_SCHEMA_URL} -o frontend_temp/dist/assets/singbox.schema.json \
+    && echo "${SINGBOX_SCHEMA_SHA256}  frontend_temp/dist/assets/singbox.schema.json" | sha256sum -c - \
+    && curl -fsSL ${MIHOMO_SCHEMA_URL} -o frontend_temp/dist/assets/mihomo.schema.json \
+    && echo "${MIHOMO_SCHEMA_SHA256}  frontend_temp/dist/assets/mihomo.schema.json" | sha256sum -c -
 
 COPY --from=schema-patch /opt/schemas/xray.schema.json frontend_temp/dist/assets/xray.schema.json
 COPY --from=schema-patch /opt/schemas/xray.schema.cn.json frontend_temp/dist/assets/xray.schema.cn.json
