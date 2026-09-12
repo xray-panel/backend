@@ -16,6 +16,7 @@ import { InfraBillingModule } from './infra-billing/infra-billing.module';
 import { InternalSquadModule } from './internal-squads/internal-squad.module';
 import { KeygenModule } from './keygen/keygen.module';
 import { LogRetentionModule } from './log-retention';
+import { LogsModule } from './logs/logs.module';
 import { MetadataModule } from './metadata/metadata.module';
 import { NodeIntegrationModule } from './node-integrations';
 import { NodePluginModule } from './node-plugins';
@@ -55,6 +56,7 @@ import { UsersModule } from './users/users.module';
         HwidUserDevicesModule,
         NodesUsageHistoryModule,
         LogRetentionModule,
+        LogsModule,
         InfraBillingModule,
         UserSubscriptionRequestHistoryModule,
         ConditionalModule.registerWhen(SystemModule, () => isRestApi()),

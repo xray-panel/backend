@@ -9,6 +9,7 @@ export * from './infra-billing';
 export * from './internal-squads';
 export * from './connections';
 export * from './keygen';
+export * from './logs';
 export * from './metadata';
 export * from './node-integrations';
 export * from './node-plugins';
