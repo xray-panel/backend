@@ -36,7 +36,7 @@ const bullBoard = [
             uiConfig: {
                 boardTitle: 'XPANEL',
                 boardLogo: {
-                    path: 'https://docs.CHANGE-ME.example/img/logo.svg',
+                    path: 'https://docs.xraypanel.dev/img/logo.svg',
                     width: 32,
                     height: 32,
                 },
@@ -54,7 +54,7 @@ const bullBoard = [
                     },
                     {
                         text: 'XPANEL',
-                        url: 'https://docs.CHANGE-ME.example',
+                        url: 'https://docs.xraypanel.dev',
                     },
                     {
                         text: 'Telegram',

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const DOCS_LINK = `\n\n[📖 Documentation](https://docs.CHANGE-ME.example/docs/learn/node-plugins)`;
+const DOCS_LINK = `\n\n[📖 Documentation](https://docs.xraypanel.dev/docs/learn/node-plugins)`;
 
 // https://github.com/colinhacks/zod/issues/5944
 const IPV6 = z.regexes.ipv6.source.slice(1, -1);

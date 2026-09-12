@@ -3,7 +3,7 @@ export const DEFAULT_SUBPAGE_CONFIG = {
     locales: ['en', 'ru', 'zh', 'fa', 'fr'],
     brandingSettings: {
         title: 'Subscription',
-        logoUrl: 'https://docs.CHANGE-ME.example/img/logo.svg',
+        logoUrl: 'https://docs.xraypanel.dev/img/logo.svg',
         supportUrl: 'https://example.com',
     },
     uiConfig: {

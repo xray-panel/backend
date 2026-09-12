@@ -22,7 +22,7 @@ ${separator}
 <tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> XPANEL v${e.data.panelVersion} is up and running.
 
 <tg-emoji emoji-id='5463036196777128277'>🦋</tg-emoji> Join community: @remnawave
-<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.CHANGE-ME.example`,
+<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.xraypanel.dev`,
         keyboard: [
             {
                 url: 'https://github.com/CHANGE-ME/xpanel/panel',
@@ -30,7 +30,7 @@ ${separator}
                 customEmoji: '5258039825805624495',
             },
             {
-                url: 'https://docs.CHANGE-ME.example/docs/donate/',
+                url: 'https://docs.xraypanel.dev/docs/donate/',
                 text: 'Support XPANEL',
                 customEmoji: '5404408875279458778',
                 style: 'primary',

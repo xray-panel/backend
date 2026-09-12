@@ -61,7 +61,7 @@ LABEL org.opencontainers.image.url="https://github.com/CHANGE-ME/xpanel/backend"
 LABEL org.opencontainers.image.source="https://github.com/CHANGE-ME/xpanel/backend"
 LABEL org.opencontainers.image.vendor="XPANEL"
 LABEL org.opencontainers.image.licenses="AGPL-3.0"
-LABEL org.opencontainers.image.documentation="https://docs.CHANGE-ME.example"
+LABEL org.opencontainers.image.documentation="https://docs.xraypanel.dev"
 
 WORKDIR /opt/app
 

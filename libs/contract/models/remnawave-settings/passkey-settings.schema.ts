@@ -35,7 +35,7 @@ export const PasskeySettingsSchema = z.object({
                 return false;
             },
             {
-                message: 'Must be a valid plain URL, e.g. "https://docs.CHANGE-ME.example".',
+                message: 'Must be a valid plain URL, e.g. "https://docs.xraypanel.dev".',
             },
         ),
     ),

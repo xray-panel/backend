@@ -13,7 +13,7 @@ export async function getStartMessage() {
             [
                 chalk.cyan('📚 Documentation') +
                     chalk.gray(' ········ ') +
-                    chalk.white('https://docs.CHANGE-ME.example'),
+                    chalk.white('https://docs.xraypanel.dev'),
             ],
             [
                 chalk.green('💬 Community') +

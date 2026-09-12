@@ -30,7 +30,7 @@ XPANEL is a powerful proxy management tool, built on top of Xray-core, with a fo
 ## Resources
 * https://github.com/CHANGE-ME/xpanel
 * https://github.com/CHANGE-ME/xpanel
-* https://docs.CHANGE-ME.example
+* https://docs.xraypanel.dev
 `;
 
 export async function createOpenApiDocumentFactory(
