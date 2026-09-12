@@ -11,14 +11,14 @@ WORKDIR /opt/frontend
 COPY frontend-dist ./frontend-dist
 
 ARG BRANCH=main
-ARG FRONTEND_URL=https://github.com/kitten443/xpanel/frontend/releases/latest/download/remnawave-frontend.zip
+ARG FRONTEND_URL=https://github.com/xray-panel/frontend/releases/latest/download/remnawave-frontend.zip
 ARG SINGBOX_SCHEMA_URL=https://github.com/BlackDuty/sing-box-schema/releases/download/v1.13.13/schema.json
 ARG MIHOMO_SCHEMA_URL=https://github.com/dongchengjie/meta-json-schema/releases/download/v1.19.29/meta-json-schema.json
 
 # Зеркало артефактов валидатора в собственном репозитории. Раньше они
 # скачивались с validator.remna.dev без единой проверки, включая 59 МБ
 # исполняемого кода. Теперь адреса наши и каждый файл сверяется по sha256.
-ARG VALIDATOR_RELEASE=https://github.com/kitten443/xpanel/releases/download/validator-v1
+ARG VALIDATOR_RELEASE=https://github.com/xray-panel/releases/download/validator-v1
 ARG MAIN_WASM_SHA256=45b31aca38f8de5febdb4ef032f691e033d0b7139ba04bf792ef3a57b7c595cc
 ARG WASM_EXEC_SHA256=0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14
 ARG SINGBOX_SCHEMA_SHA256=a8e691ed3565f6ae02af19a992c0cb8d3c0e98e79e8e921819740d66f75ed9a8
@@ -92,8 +92,8 @@ FROM node:24.20-trixie-slim
 
 LABEL org.opencontainers.image.title="XPANEL"
 LABEL org.opencontainers.image.description="Powerful proxy management tool"
-LABEL org.opencontainers.image.url="https://github.com/kitten443/xpanel/backend"
-LABEL org.opencontainers.image.source="https://github.com/kitten443/xpanel/backend"
+LABEL org.opencontainers.image.url="https://github.com/xray-panel/backend"
+LABEL org.opencontainers.image.source="https://github.com/xray-panel/backend"
 LABEL org.opencontainers.image.vendor="XPANEL"
 LABEL org.opencontainers.image.licenses="AGPL-3.0"
 LABEL org.opencontainers.image.documentation="https://docs.xraypanel.dev"

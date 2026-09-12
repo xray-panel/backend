@@ -3,37 +3,37 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 
 import { Injectable, Logger } from '@nestjs/common';
 
-export interface IAdminAuditEntry {
-    adminUuid: null | string;
-    adminUsername: string;
-    /** HTTP-метод действия. */
-    action: string;
-    /** Путь запроса без query-строки. */
-    resource: string;
-    status: 'failure' | 'success';
-    statusCode: number;
-    requestIp: null | string;
-    userAgent: null | string;
-    durationMs: null | number;
-}
+import { GetAuditLogCommand } from '@libs/contracts/commands';
 
-/**
- * Журнал действий администраторов.
- *
- * В записи намеренно НЕ попадают тело запроса и query-строка: в них бывают
- * пароли, токены и секреты OAuth2. Фиксируется только то, что нужно для
- * разбора инцидента: кто, что, когда, с какого адреса и с каким результатом.
- *
- * Запись не должна влиять на основной запрос: ошибка журналирования
- * проглатывается и только логируется.
- */
+import { AuditLogRepository } from './repositories/audit-log.repository';
+
 @Injectable()
 export class AuditLogService {
     private readonly logger = new Logger(AuditLogService.name);
 
-    constructor(private readonly prisma: TransactionHost<TransactionalAdapterPrisma>) {}
+    constructor(
+        private readonly auditLogRepository: AuditLogRepository,
+        private readonly prisma: TransactionHost<TransactionalAdapterPrisma>,
+    ) {}
 
-    public async record(entry: IAdminAuditEntry): Promise<void> {
+    /**
+     * Запись действия администратора.
+     *
+     * Тело запроса и query-строка не сохраняются намеренно: в них бывают
+     * пароли, токены и секреты OAuth2. Ошибка журналирования проглатывается —
+     * аудит не должен ломать основной запрос.
+     */
+    public async record(entry: {
+        adminUuid: null | string;
+        adminUsername: string;
+        action: string;
+        resource: string;
+        status: 'failure' | 'success';
+        statusCode: number;
+        requestIp: null | string;
+        userAgent: null | string;
+        durationMs: null | number;
+    }): Promise<void> {
         try {
             await this.prisma.tx.adminAuditLog.create({
                 data: {
@@ -51,5 +51,40 @@ export class AuditLogService {
         } catch (error) {
             this.logger.error(`Failed to write audit record: ${error}`);
         }
+    }
+
+    public async getAuditLog(
+        query: GetAuditLogCommand.RequestQuery,
+    ): Promise<GetAuditLogCommand.Response['response']> {
+        const page = query.page ?? 1;
+        const size = query.size ?? 25;
+
+        const { entries, total } = await this.auditLogRepository.find(
+            {
+                adminUsername: query.adminUsername,
+                action: query.action,
+                status: query.status,
+                from: query.from,
+                to: query.to,
+            },
+            page,
+            size,
+        );
+
+        return {
+            entries: entries.map((entry) => ({
+                id: Number(entry.id),
+                adminUsername: entry.adminUsername,
+                action: entry.action,
+                resource: entry.resource,
+                status: entry.status,
+                statusCode: entry.statusCode,
+                requestIp: entry.requestIp,
+                userAgent: entry.userAgent,
+                durationMs: entry.durationMs,
+                createdAt: new Date(entry.createdAt).toISOString(),
+            })),
+            total,
+        };
     }
 }

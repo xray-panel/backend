@@ -25,7 +25,7 @@ ${separator}
 <tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.xraypanel.dev`,
         keyboard: [
             {
-                url: 'https://github.com/kitten443/xpanel/panel',
+                url: 'https://github.com/xray-panel/panel',
                 text: 'Leave a star',
                 customEmoji: '5258039825805624495',
             },

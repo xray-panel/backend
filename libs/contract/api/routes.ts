@@ -10,6 +10,9 @@ export const SWAGGER_ROOT = '/backend-tools/swagger' as const;
 export const SCALAR_ROOT = '/backend-tools/scalar' as const;
 
 export const REST_API = {
+    AUDIT_LOG: {
+        GET: `${ROOT}/${CONTROLLERS.AUDIT_LOG_CONTROLLER}/${CONTROLLERS.AUDIT_LOG_ROUTES.GET}`,
+    },
     LOGS: {
         GET_STATS: `${ROOT}/${CONTROLLERS.LOGS_CONTROLLER}/${CONTROLLERS.LOGS_ROUTES.GET_STATS}`,
         CLEAN: `${ROOT}/${CONTROLLERS.LOGS_CONTROLLER}/${CONTROLLERS.LOGS_ROUTES.CLEAN}`,

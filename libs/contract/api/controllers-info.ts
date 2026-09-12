@@ -26,6 +26,11 @@ export const CONTROLLERS_INFO = {
             'Methods of this controller are protected with auth, most of them is returning the same informations as public Subscription Controller.',
         resource: 'subscriptions',
     },
+    AUDIT_LOG: {
+        tag: 'Audit Log Controller',
+        description: 'Admin action history: who changed what and with what result.',
+        resource: 'audit-log',
+    },
     LOGS: {
         tag: 'Logs Controller',
         description: 'Inspect and purge log-like tables.',

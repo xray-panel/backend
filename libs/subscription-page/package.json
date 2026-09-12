@@ -3,15 +3,15 @@
   "version": "0.6.2",
   "description": "A types library for XPANEL Subscription Page.",
   "keywords": [],
-  "homepage": "https://github.com/kitten443/xpanel",
+  "homepage": "https://github.com/xray-panel",
   "bugs": {
-    "url": "https://github.com/kitten443/xpanel/backend/issues"
+    "url": "https://github.com/xray-panel/backend/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "REMNAWAVE <github.com/remnawave>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kitten443/xpanel/backend.git"
+    "url": "git+https://github.com/xray-panel/backend.git"
   },
   "files": [
     "build/**/*"

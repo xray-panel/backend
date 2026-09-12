@@ -193,7 +193,7 @@ jobs:
             🌊 XPANEL Backend v${{ github.ref_name }}
 
             <p align="center">
-              <a href="https://github.com/kitten443/xpanel" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/xray-panel" target="_blank" rel="noopener noreferrer">
                 <img src="https://img.shields.io/badge/Join%20community-Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Join community on Telegram" width="220" height="auto">
               </a>
             </p>
