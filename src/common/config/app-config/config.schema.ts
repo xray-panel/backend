@@ -122,7 +122,7 @@ export const configSchema = z
             ),
         AUDIT_LOG_RETENTION_DAYS: z
             .string()
-            .default('180')
+            .default('30')
             .transform((val) => parseInt(val, 10))
             .refine(
                 (val) => Number.isInteger(val) && val > 0,
