@@ -87,7 +87,17 @@ async function bootstrap(): Promise<void> {
             directives: {
                 'script-src': ["'self'", "'wasm-unsafe-eval'"],
                 'img-src': ["'self'", 'data:', 'https:'],
-                'connect-src': ["'self'", 'https://raw.githubusercontent.com', 'https://ungh.cc'],
+                // ungh.cc убран: XPANEL не обращается к инфраструктуре вендора
+                // за версиями и звёздами репозитория.
+                //
+                // raw.githubusercontent.com остаётся только для двух
+                // admin-инициированных функций, подтягивающих содержимое из
+                // репозиториев Remnawave: список шаблонов
+                // (shared/constants/templates/template-list-links.tsx) и статьи
+                // справки (shared/_modals/universal/help-drawer). Они подлежат
+                // переводу на собственный репозиторий XPANEL, после чего эту
+                // запись нужно удалить.
+                'connect-src': ["'self'", 'https://raw.githubusercontent.com'],
             },
         },
     });
