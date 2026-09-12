@@ -16,6 +16,8 @@ const entityToModel = (entity: AdminEntity): Admin => {
         username: entity.username,
         passwordHash: entity.passwordHash,
         role: entity.role,
+        totpSecret: entity.totpSecret,
+        totpEnabled: entity.totpEnabled,
 
         createdAt: entity.createdAt,
         updatedAt: entity.updatedAt,

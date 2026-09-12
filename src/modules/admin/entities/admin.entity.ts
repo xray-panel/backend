@@ -8,6 +8,11 @@ export class AdminEntity implements Admin {
     public passwordHash: string;
     public role: TRoleTypes;
 
+    /** Секрет TOTP в зашифрованном виде. null — второй фактор не настроен. */
+    public totpSecret: null | string;
+    /** Проверяется ли код при входе. */
+    public totpEnabled: boolean;
+
     public createdAt: Date;
     public updatedAt: Date;
 

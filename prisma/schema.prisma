@@ -113,10 +113,15 @@ model ApiTokens {
 }
 
 model Admin {
-  uuid         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username     String @unique @map("username")
-  passwordHash String @map("password_hash")
-  role         String @map("role")
+  uuid         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username     String  @unique @map("username")
+  passwordHash String  @map("password_hash")
+  role         String  @map("role")
+
+  /// Секрет TOTP в зашифрованном виде (AES-256-GCM, ключ из APP_SECRET).
+  /// Второй фактор не проверяется, пока totpEnabled не станет true.
+  totpSecret  String? @map("totp_secret")
+  totpEnabled Boolean @default(false) @map("totp_enabled")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
