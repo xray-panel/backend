@@ -20,7 +20,11 @@ export class NotificationsConfigService {
             return eventConfig[channel];
         }
 
-        return true;
+        // Событие, отсутствующее в конфиге, считается выключенным. Раньше
+        // возвращалось true, из-за чего отключить уведомление удалением строки
+        // из notifications-config.yml было невозможно: событие всё равно
+        // уходило во внешние каналы.
+        return false;
     }
 
     getWebhookUrls(eventName: TAllEvents): string[] {

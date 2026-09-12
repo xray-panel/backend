@@ -95,7 +95,6 @@ export class AuthService {
             if (!statusResponse.response.isLoginAllowed) {
                 await this.emitFailedLoginAttempt(
                     username,
-                    password,
                     ip,
                     userAgent,
                     'Login is not allowed.',
@@ -111,7 +110,6 @@ export class AuthService {
             if (!statusResponse.response.authentication.password.enabled) {
                 await this.emitFailedLoginAttempt(
                     username,
-                    password,
                     ip,
                     userAgent,
                     'Someone tried to login with password authentication, but it is disabled.',
@@ -130,7 +128,6 @@ export class AuthService {
             if (!admin.isOk) {
                 await this.emitFailedLoginAttempt(
                     username,
-                    password,
                     ip,
                     userAgent,
                     'Admin is not found in database.',
@@ -147,7 +144,6 @@ export class AuthService {
             if (!isPasswordValid) {
                 await this.emitFailedLoginAttempt(
                     username,
-                    password,
                     ip,
                     userAgent,
                     'Invalid password.',
@@ -468,7 +464,6 @@ export class AuthService {
             if (!statusResponse.response.isLoginAllowed) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    `OAuth2 code: ${code}`,
                     ip,
                     userAgent,
                     'Login is not allowed.',
@@ -479,7 +474,6 @@ export class AuthService {
             if (!statusResponse.response.authentication?.oauth2.providers[provider]) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    `OAuth2 provider: ${provider}`,
                     '–',
                     '–',
                     `OAuth2 provider ${provider} is disabled.`,
@@ -491,7 +485,6 @@ export class AuthService {
             if (!firstAdmin.isOk) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Superadmin not found.',
@@ -553,7 +546,6 @@ export class AuthService {
         if (!ceremony || ceremony.provider !== provider) {
             await this.emitFailedLoginAttempt(
                 'Unknown',
-                `State: ${state}`,
                 ip,
                 userAgent,
                 `${provider} state mismatch.`,
@@ -575,7 +567,6 @@ export class AuthService {
         ) {
             await this.emitFailedLoginAttempt(
                 'Unknown',
-                '–',
                 ip,
                 userAgent,
                 `${provider} code verifier not found.`,
@@ -588,7 +579,6 @@ export class AuthService {
         if (!emailResult.email) {
             await this.emitFailedLoginAttempt(
                 'Unknown',
-                '–',
                 ip,
                 userAgent,
                 emailResult.error ?? `Failed to get email from ${provider}.`,
@@ -603,7 +593,6 @@ export class AuthService {
         if (!isAllowed) {
             await this.emitFailedLoginAttempt(
                 emailResult.email,
-                '–',
                 ip,
                 userAgent,
                 `${provider} email not in allowed list and no remnawaveAccess claim.`,
@@ -838,7 +827,6 @@ export class AuthService {
 
     private async emitFailedLoginAttempt(
         username: string,
-        password: string,
         ip: string,
         userAgent: string,
         description?: string,
@@ -848,7 +836,6 @@ export class AuthService {
             new ServiceEvent(EVENTS.SERVICE.LOGIN_ATTEMPT_FAILED, {
                 loginAttempt: {
                     username,
-                    password,
                     ip,
                     userAgent,
                     description: description ?? '–',
@@ -954,7 +941,6 @@ export class AuthService {
             if (!remnawaveSettings.passkeySettings.enabled) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Passkey authentication is not enabled.',
@@ -968,7 +954,6 @@ export class AuthService {
             ) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Passkey authentication is not configured.',
@@ -983,7 +968,6 @@ export class AuthService {
             if (!admin.isOk) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Admin is not found.',
@@ -1002,7 +986,6 @@ export class AuthService {
             if (!expectedChallenge || challengeOwner !== admin.response.uuid) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Challenge not found.',
@@ -1017,7 +1000,6 @@ export class AuthService {
             if (!passkey.isOk) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Passkey not found.',
@@ -1045,7 +1027,6 @@ export class AuthService {
             if (!verification.verified) {
                 await this.emitFailedLoginAttempt(
                     'Unknown',
-                    '–',
                     ip,
                     userAgent,
                     'Passkey authentication failed.',

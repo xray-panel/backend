@@ -58,7 +58,6 @@ export const RemnawaveWebhookServiceEvents = z.object({
                 ip: z.string(),
                 userAgent: z.string(),
                 description: z.string().optional(),
-                password: z.string().optional(),
             })
             .optional(),
         panelVersion: z.string().optional(),

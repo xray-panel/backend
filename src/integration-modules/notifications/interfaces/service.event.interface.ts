@@ -6,7 +6,6 @@ export interface IServiceEvent {
         ip: string;
         userAgent: string;
         description?: string;
-        password?: string;
     };
     panelVersion?: string;
     subpageConfig?: {
