@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+
+import { AxiosModule } from '@common/axios';
 import { ConditionalModule } from '@nestjs/config';
 
 import { isRestApi, isScheduler } from '@common/utils/startup-app';
@@ -37,6 +39,10 @@ import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
+        // Глобальный модуль: NodesService обращается к нодам напрямую
+        // (очистка логов Xray), поэтому он нужен и в графе REST API, а не
+        // только в графе процессоров.
+        AxiosModule,
         RemnawaveSettingsModule,
         AuditLogModule,
         ConditionalModule.registerWhen(AdminModule, () => isRestApi()),

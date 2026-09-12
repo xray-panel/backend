@@ -17,7 +17,7 @@
 /libs/node-plugins/node_modules
 /libs/node-plugins/dist
 # Logs
-logs
+/logs
 *.log
 npm-debug.log*
 pnpm-debug.log*
@@ -72,3 +72,4 @@ prisma/generated/types.ts
 frontend/
 f.jsonvendor/*/build/
 libs/hashed-set/build/
+frontend-dist/

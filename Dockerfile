@@ -3,8 +3,12 @@ WORKDIR /opt/schemas
 COPY assets/validator/xray.schema.json ./xray.schema.json
 COPY assets/validator/xray.schema.cn.json ./xray.schema.cn.json
 
+# Собранный фронтенд кладётся в контекст сборки перед сборкой образа.
+# Правильное решение — собирать его здесь же многостадийно; это следующий шаг.
+
 FROM alpine:3.19 AS frontend
 WORKDIR /opt/frontend
+COPY frontend-dist ./frontend-dist
 
 ARG BRANCH=main
 ARG FRONTEND_URL=https://github.com/kitten443/xpanel/frontend/releases/latest/download/remnawave-frontend.zip
@@ -21,8 +25,7 @@ ARG SINGBOX_SCHEMA_SHA256=a8e691ed3565f6ae02af19a992c0cb8d3c0e98e79e8e921819740d
 ARG MIHOMO_SCHEMA_SHA256=04368aef934be14b5392e71ec4c33cd56999545918f462de1c1eee750815cc75
 
 RUN apk add --no-cache curl unzip ca-certificates \
-    && curl -fsSL ${FRONTEND_URL} -o frontend.zip \
-    && unzip -q frontend.zip -d frontend_temp \
+    && cp -a frontend-dist frontend_temp \
     && curl -fsSL ${VALIDATOR_RELEASE}/wasm_exec.js -o frontend_temp/dist/assets/wasm_exec.js \
     && echo "${WASM_EXEC_SHA256}  frontend_temp/dist/assets/wasm_exec.js" | sha256sum -c - \
     && curl -fsSL ${VALIDATOR_RELEASE}/main.wasm -o frontend_temp/dist/assets/main.wasm \
@@ -45,17 +48,30 @@ COPY rspack.config.mjs ./
 COPY prisma.config.ts ./prisma.config.ts
 COPY @types ./@types
 
-RUN npm ci --prefer-offline --no-audit --no-fund
+# --ignore-scripts: postinstall собирает локальные контракты и патчит
+# зависимости, но на этом шаге в образ ещё не скопированы ни scripts/, ни
+# libs/, ни vendor/. Поэтому шаги выполняются явно ниже, после COPY.
+RUN npm ci --prefer-offline --no-audit --no-fund --ignore-scripts
 
 COPY tsconfig*.json ./
 COPY src ./src
 COPY libs ./libs
+COPY vendor ./vendor
+COPY scripts ./scripts
+
+# Патчи зависимостей и сборка локальных контрактов — то, что обычно делает
+# postinstall, но здесь это возможно только после копирования исходников.
+RUN npx patch-package && bash ./scripts/build-vendored-contracts.sh
 
 RUN npm run migrate:generate \
     && npm run generate:openapi \
     && test -s openapi.json \
     && npm run build \
     && npm prune --omit=dev \
+    && npm install --omit=dev --ignore-scripts --no-audit --no-fund \
+    && rm -rf node_modules/@xpanel/hashed-set node_modules/@xpanel/node-contract \
+    && cp -a libs/hashed-set node_modules/@xpanel/hashed-set \
+    && cp -a vendor/node-contract node_modules/@xpanel/node-contract \
     && npm cache clean --force
 
 RUN cd node_modules/@prisma/client/runtime && \
