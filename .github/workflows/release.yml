@@ -1,0 +1,87 @@
+name: Release
+
+# Тег validator-v1 занят артефактами валидатора, поэтому релиз собирается
+# только по тегам вида v1.2.3.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  image:
+    name: Образ панели
+    runs-on: ubuntu-latest
+    steps:
+      - name: Код панели
+        uses: actions/checkout@v4
+
+      # Интерфейс лежит в отдельном репозитории, а образ панели отдаёт его
+      # статику. Клонируем напрямую по HTTPS: репозиторий публичный, токен
+      # текущего репозитория для чужого репозитория всё равно не подошёл бы.
+      - name: Код интерфейса
+        run: git clone --depth 1 https://github.com/xray-panel/frontend .frontend-src
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Сборка интерфейса
+        working-directory: .frontend-src
+        run: |
+          npm ci --include=dev
+          npm run cb
+
+      - name: Подготовка контекста сборки
+        run: |
+          echo "FRONTEND_SHA=$(git -C .frontend-src rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
+          echo "BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+          rm -rf frontend-dist
+          mkdir -p frontend-dist
+          cp -a .frontend-src/dist frontend-dist/dist
+          rm -rf .frontend-src
+
+      - name: Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Вход в GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Сборка и отправка образа
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ env.VERSION }}
+            ${{ env.IMAGE }}:latest
+          build-args: |
+            __RW_METADATA_VERSION=${{ env.VERSION }}
+            __RW_METADATA_GIT_BRANCH=${{ github.ref_name }}
+            __RW_METADATA_GIT_BACKEND_COMMIT=${{ github.sha }}
+            __RW_METADATA_GIT_FRONTEND_COMMIT=${{ env.FRONTEND_SHA }}
+            __RW_METADATA_BUILD_TIME=${{ env.BUILD_TIME }}
+
+      - name: Релиз
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          name: XPANEL Backend ${{ env.VERSION }}
