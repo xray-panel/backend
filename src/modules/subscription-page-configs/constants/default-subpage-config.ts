@@ -4,7 +4,7 @@ export const DEFAULT_SUBPAGE_CONFIG = {
     brandingSettings: {
         title: 'Subscription',
         logoUrl: 'https://docs.CHANGE-ME.example/img/logo.svg',
-        supportUrl: 'https://dummy.docs.rw',
+        supportUrl: 'https://example.com',
     },
     uiConfig: {
         subscriptionInfoBlockType: 'expanded',

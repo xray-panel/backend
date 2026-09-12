@@ -17,7 +17,7 @@ export const PasskeySettingsSchema = z.object({
                 return false;
             },
             {
-                message: 'Must be a valid fully qualified domain name (FQDN), e.g. "docs.rw"',
+                message: 'Must be a valid fully qualified domain name (FQDN), e.g. "example.com"',
             },
         ),
     ),

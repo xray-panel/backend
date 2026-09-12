@@ -84,7 +84,7 @@ export async function seedSubscriptionSettings(prisma: PrismaClient) {
             customResponseHeaders: {
                 'profile-title': 'rwEncodeBase64:XPANEL',
                 'profile-update-interval': '12',
-                'support-url': 'https://dummy.docs.rw',
+                'support-url': 'https://example.com',
                 'profile-web-page-url': '{{SUBSCRIPTION_URL}}',
             },
         },
