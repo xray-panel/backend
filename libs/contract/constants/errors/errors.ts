@@ -1299,4 +1299,34 @@ export const ERRORS = {
         message: 'Clear node logs error',
         httpCode: 500,
     },
+    GET_ADMINS_ERROR: {
+        code: 'A260',
+        message: 'Get administrators error',
+        httpCode: 500,
+    },
+    ADMIN_USERNAME_ALREADY_EXISTS: {
+        code: 'A261',
+        message: 'Administrator with this username already exists',
+        httpCode: 409,
+    },
+    UPDATE_ADMIN_ERROR: {
+        code: 'A262',
+        message: 'Update administrator error',
+        httpCode: 500,
+    },
+    DELETE_ADMIN_ERROR: {
+        code: 'A263',
+        message: 'Delete administrator error',
+        httpCode: 500,
+    },
+    CANNOT_DELETE_LAST_ADMIN: {
+        code: 'A264',
+        message: 'Cannot delete the last administrator',
+        httpCode: 400,
+    },
+    CANNOT_DELETE_SELF: {
+        code: 'A265',
+        message: 'Cannot delete your own account',
+        httpCode: 400,
+    },
 } as const;

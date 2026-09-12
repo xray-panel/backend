@@ -211,7 +211,7 @@ export class AuthService {
 
             const createAdminResponse = await this.createAdmin({
                 username,
-                password: hashedPassword,
+                passwordHash: hashedPassword,
                 role: ROLE.ADMIN,
             });
 
@@ -797,7 +797,7 @@ export class AuthService {
 
     private async createAdmin(dto: CreateAdminCommand): Promise<TResult<AdminEntity>> {
         return this.commandBus.execute<CreateAdminCommand, TResult<AdminEntity>>(
-            new CreateAdminCommand(dto.username, dto.password, dto.role),
+            new CreateAdminCommand(dto.username, dto.passwordHash, dto.role),
         );
     }
 

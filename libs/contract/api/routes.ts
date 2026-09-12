@@ -10,6 +10,14 @@ export const SWAGGER_ROOT = '/backend-tools/swagger' as const;
 export const SCALAR_ROOT = '/backend-tools/scalar' as const;
 
 export const REST_API = {
+    ADMINS: {
+        GET_ALL: `${ROOT}/${CONTROLLERS.ADMINS_CONTROLLER}/${CONTROLLERS.ADMINS_ROUTES.GET_ALL}`,
+        CREATE: `${ROOT}/${CONTROLLERS.ADMINS_CONTROLLER}/${CONTROLLERS.ADMINS_ROUTES.CREATE}`,
+        UPDATE: (uuid: string) =>
+            `${ROOT}/${CONTROLLERS.ADMINS_CONTROLLER}/${CONTROLLERS.ADMINS_ROUTES.UPDATE(uuid)}`,
+        DELETE: (uuid: string) =>
+            `${ROOT}/${CONTROLLERS.ADMINS_CONTROLLER}/${CONTROLLERS.ADMINS_ROUTES.DELETE(uuid)}`,
+    },
     AUDIT_LOG: {
         GET: `${ROOT}/${CONTROLLERS.AUDIT_LOG_CONTROLLER}/${CONTROLLERS.AUDIT_LOG_ROUTES.GET}`,
     },

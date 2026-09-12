@@ -1,3 +1,4 @@
+import { AdminController } from './admin.controller';
 import { PasskeyController } from './passkey.controller';
 
-export const CONTROLLERS = [PasskeyController];
+export const CONTROLLERS = [AdminController, PasskeyController];

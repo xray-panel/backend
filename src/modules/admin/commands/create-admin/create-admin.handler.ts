@@ -24,7 +24,7 @@ export class CreateAdminHandler implements ICommandHandler<
             const result = await this.adminRepository.create(
                 new AdminEntity({
                     username: command.username,
-                    passwordHash: command.password,
+                    passwordHash: command.passwordHash,
                     role: command.role,
                 }),
             );

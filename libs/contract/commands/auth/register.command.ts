@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { AUTH_ROUTES, REST_API } from '../../api';
 import { getEndpointDetails } from '../../constants';
+import { ADMIN_PASSWORD_SCHEMA } from '../admins/admins.schema';
 
 export namespace RegisterCommand {
     export const url = REST_API.AUTH.REGISTER;
@@ -16,13 +17,7 @@ export namespace RegisterCommand {
 
     export const RequestBodySchema = z.object({
         username: z.string().describe('Username of the user'),
-        password: z
-            .string()
-            .min(24, 'Password must contain at least 24 characters')
-            .regex(
-                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{24,}$/,
-                'Password must contain uppercase and lowercase letters and numbers, and be at least 24 characters long.',
-            ),
+        password: ADMIN_PASSWORD_SCHEMA,
     });
 
     export const ResponseSchema = z.object({

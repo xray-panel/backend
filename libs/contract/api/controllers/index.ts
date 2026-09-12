@@ -1,3 +1,4 @@
+export * from './admins';
 export * from './api-tokens';
 export * from './audit-log';
 export * from './auth';
