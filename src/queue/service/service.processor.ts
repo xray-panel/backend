@@ -4,7 +4,8 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { TruncateNodesUserUsageHistoryCommand } from '@modules/nodes-user-usage-history/commands/truncate-nodes-user-usage-history';
+import { TypedConfigService } from '@common/config/app-config';
+import { CleanOldUsageRecordsCommand } from '@modules/nodes-user-usage-history/commands/clean-old-usage-records';
 import { VacuumNodesUserUsageHistoryCommand } from '@modules/nodes-user-usage-history/commands/vacuum-nodes-user-usage-history';
 
 import { UsersQueuesService } from '@queue/_users';
@@ -21,6 +22,7 @@ export class ServiceQueueProcessor extends WorkerHost {
     constructor(
         private readonly commandBus: CommandBus,
         private readonly usersQueuesService: UsersQueuesService,
+        private readonly configService: TypedConfigService,
     ) {
         super();
     }
@@ -41,13 +43,22 @@ export class ServiceQueueProcessor extends WorkerHost {
         try {
             await this.usersQueuesService.queues.updateUsersUsage.pause();
 
-            this.logger.log('Resetting tables...');
+            const retentionDays = this.configService.getOrThrow('USAGE_HISTORY_RETENTION_DAYS');
 
-            await this.commandBus.execute(new TruncateNodesUserUsageHistoryCommand());
+            this.logger.log(
+                `Deleting usage history older than ${retentionDays} days...`,
+            );
+
+            // Раньше здесь выполнялся TRUNCATE всей таблицы, из-за чего задача
+            // с названием «clean old usage records» уничтожала историю целиком
+            // вместо удаления старых записей.
+            const deleted = (await this.commandBus.execute(
+                new CleanOldUsageRecordsCommand(retentionDays),
+            )) as number;
 
             await this.commandBus.execute(new VacuumNodesUserUsageHistoryCommand());
 
-            this.logger.log('Tables resetted');
+            this.logger.log(`Usage history cleanup finished, deleted ${deleted} records.`);
         } catch (error) {
             this.logger.error(
                 `Error handling "${ServiceJobNames.CLEAN_OLD_USAGE_RECORDS}" job: ${error}`,

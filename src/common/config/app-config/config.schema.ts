@@ -93,6 +93,14 @@ export const configSchema = z
         ENABLE_DEBUG_LOGS: booleanString('false'),
         REMNAWAVE_BRANCH: z.string().default('dev'),
         SERVICE_CLEAN_USAGE_HISTORY: booleanString('false'),
+        USAGE_HISTORY_RETENTION_DAYS: z
+            .string()
+            .default('14')
+            .transform((val) => parseInt(val, 10))
+            .refine(
+                (val) => Number.isInteger(val) && val > 0,
+                'USAGE_HISTORY_RETENTION_DAYS must be a positive integer',
+            ),
         SERVICE_DISABLE_USER_USAGE_RECORDS: booleanString('false'),
         SERVICE_DISABLE_SRH_RECORDS: booleanString('false'),
         EXPORT_TO_STREAM_ENABLED: booleanString('false'),

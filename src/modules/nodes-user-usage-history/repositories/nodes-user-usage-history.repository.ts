@@ -54,10 +54,15 @@ export class NodesUserUsageHistoryRepository implements ICrudHistoricalRecords<N
         await this.prisma.tx.$executeRaw<void>(query);
     }
 
-    public async cleanOldUsageRecords(): Promise<number> {
+    /**
+     * Удаляет записи истории трафика старше retentionDays.
+     * Срок передаётся параметром (make_interval), а не подставляется в текст
+     * запроса, чтобы исключить инъекцию через настройку.
+     */
+    public async cleanOldUsageRecords(retentionDays: number): Promise<number> {
         const query = Prisma.sql`
             DELETE FROM nodes_user_usage_history
-            WHERE created_at < NOW() - INTERVAL '14 days'
+            WHERE created_at < NOW() - make_interval(days => ${retentionDays})
         `;
 
         return await this.prisma.tx.$executeRaw<number>(query);
