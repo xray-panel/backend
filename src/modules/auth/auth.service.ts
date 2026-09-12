@@ -45,6 +45,7 @@ import { GetCachedRemnawaveSettingsQuery } from '@modules/remnawave-settings/que
 
 import { VerifyPasskeyAuthenticationBodyDto } from './dtos';
 import { ILogin, IRegister } from './interfaces';
+import { LoginAttemptsService } from './login-attempts.service';
 import {
     OAuth2AuthorizeResponseModel,
     OAuth2CallbackResponseModel,
@@ -69,6 +70,7 @@ export class AuthService {
         private readonly commandBus: CommandBus,
         private readonly eventEmitter: EventEmitter2,
         private readonly httpService: HttpService,
+        private readonly loginAttemptsService: LoginAttemptsService,
     ) {
         this.jwtSecret = this.configService.getOrThrow('APP_SECRET');
         this.jwtLifetime = this.configService.getOrThrow('JWT_AUTH_LIFETIME');
@@ -85,6 +87,14 @@ export class AuthService {
     > {
         try {
             const { username, password } = dto;
+
+            const blockStatus = await this.loginAttemptsService.getBlockStatus(username, ip);
+            if (blockStatus.blocked) {
+                this.logger.warn(
+                    `Rejected login attempt while blocked (scope=${blockStatus.scope}, retryAfter=${blockStatus.retryAfterSeconds}s).`,
+                );
+                return fail(ERRORS.LOGIN_ATTEMPTS_EXCEEDED);
+            }
 
             const statusResponse = await this.getStatus();
 
@@ -132,6 +142,7 @@ export class AuthService {
                     userAgent,
                     'Admin is not found in database.',
                 );
+                await this.loginAttemptsService.registerFailure(username, ip);
                 this.logger.error('Admin is not found in database.');
                 return fail(ERRORS.FORBIDDEN);
             }
@@ -148,6 +159,7 @@ export class AuthService {
                     userAgent,
                     'Invalid password.',
                 );
+                await this.loginAttemptsService.registerFailure(username, ip);
                 this.logger.error('Invalid password.');
                 return fail(ERRORS.FORBIDDEN);
             }
@@ -161,6 +173,7 @@ export class AuthService {
                 { expiresIn: `${this.jwtLifetime}h` },
             );
 
+            await this.loginAttemptsService.registerSuccess(username);
             await this.emitLoginSuccess(username, ip, userAgent);
 
             return ok({ accessToken });

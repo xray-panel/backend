@@ -1289,4 +1289,9 @@ export const ERRORS = {
         message: 'Set tags error',
         httpCode: 500,
     },
+    LOGIN_ATTEMPTS_EXCEEDED: {
+        code: 'A258',
+        message: 'Too many failed login attempts. Try again later.',
+        httpCode: 429,
+    },
 } as const;
