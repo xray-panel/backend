@@ -61,7 +61,7 @@ export async function createOpenApiDocumentFactory(
         )
         .setDescription(description)
         .setVersion(pkg.version!)
-        .setLicense('AGPL-3.0', 'https://github.com/xray-panel/panel?tab=AGPL-3.0-1-ov-file')
+        .setLicense('AGPL-3.0', 'https://github.com/xray-panel/backend?tab=AGPL-3.0-1-ov-file')
         .addGlobalResponse({
             status: 404,
             description: 'Resource not found',
