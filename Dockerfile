@@ -38,7 +38,7 @@ RUN apk add --no-cache curl unzip ca-certificates \
 COPY --from=schema-patch /opt/schemas/xray.schema.json frontend_temp/dist/assets/xray.schema.json
 COPY --from=schema-patch /opt/schemas/xray.schema.cn.json frontend_temp/dist/assets/xray.schema.cn.json
 
-FROM node:24.20-trixie-slim AS backend-build
+FROM node:24.21-trixie-slim AS backend-build
 WORKDIR /opt/app
 
 COPY package*.json ./
@@ -88,7 +88,7 @@ RUN cd node_modules/@prisma/client/runtime && \
     find node_modules \( -name '*.js.map' -o -name '*.mjs.map' \) -delete && \
     find node_modules \( -name '*.d.ts' -o -name '*.d.cts' -o -name '*.d.mts' \) -delete
 
-FROM node:24.20-trixie-slim
+FROM node:24.21-trixie-slim
 
 LABEL org.opencontainers.image.title="XPANEL"
 LABEL org.opencontainers.image.description="Powerful proxy management tool"

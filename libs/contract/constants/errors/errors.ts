@@ -1289,43 +1289,51 @@ export const ERRORS = {
         message: 'Set tags error',
         httpCode: 500,
     },
-    LOGIN_ATTEMPTS_EXCEEDED: {
+    // A258 занят апстримом (CLONE_HOST_ERROR), поэтому наши коды начинаются
+    // с A259. Нумерация сквозная: при следующем слиянии с апстримом коды
+    // берутся из его диапазона, а наши продолжают свой.
+    CLONE_HOST_ERROR: {
         code: 'A258',
+        message: 'Clone host error',
+        httpCode: 500,
+    },
+    LOGIN_ATTEMPTS_EXCEEDED: {
+        code: 'A259',
         message: 'Too many failed login attempts. Try again later.',
         httpCode: 429,
     },
     CLEAR_NODE_LOGS_ERROR: {
-        code: 'A259',
+        code: 'A260',
         message: 'Clear node logs error',
         httpCode: 500,
     },
     GET_ADMINS_ERROR: {
-        code: 'A260',
+        code: 'A261',
         message: 'Get administrators error',
         httpCode: 500,
     },
     ADMIN_USERNAME_ALREADY_EXISTS: {
-        code: 'A261',
+        code: 'A262',
         message: 'Administrator with this username already exists',
         httpCode: 409,
     },
     UPDATE_ADMIN_ERROR: {
-        code: 'A262',
+        code: 'A263',
         message: 'Update administrator error',
         httpCode: 500,
     },
     DELETE_ADMIN_ERROR: {
-        code: 'A263',
+        code: 'A264',
         message: 'Delete administrator error',
         httpCode: 500,
     },
     CANNOT_DELETE_LAST_ADMIN: {
-        code: 'A264',
+        code: 'A265',
         message: 'Cannot delete the last administrator',
         httpCode: 400,
     },
     CANNOT_DELETE_SELF: {
-        code: 'A265',
+        code: 'A266',
         message: 'Cannot delete your own account',
         httpCode: 400,
     },
