@@ -3,3 +3,4 @@ export * from './login.command';
 export * from './oauth2';
 export * from './passkey';
 export * from './register.command';
+export * from './two-factor';

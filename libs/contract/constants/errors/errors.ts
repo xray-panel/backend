@@ -1337,4 +1337,29 @@ export const ERRORS = {
         message: 'Cannot delete your own account',
         httpCode: 400,
     },
+    TOTP_ALREADY_ENABLED: {
+        code: 'A267',
+        message: 'Two-factor authentication is already enabled',
+        httpCode: 409,
+    },
+    TOTP_NOT_ENABLED: {
+        code: 'A268',
+        message: 'Two-factor authentication is not enabled',
+        httpCode: 400,
+    },
+    TOTP_INVALID_CODE: {
+        code: 'A269',
+        message: 'Invalid two-factor authentication code',
+        httpCode: 403,
+    },
+    TOTP_TICKET_INVALID: {
+        code: 'A270',
+        message: 'Two-factor ticket is invalid or expired',
+        httpCode: 403,
+    },
+    TOTP_ERROR: {
+        code: 'A271',
+        message: 'Two-factor authentication error',
+        httpCode: 500,
+    },
 } as const;

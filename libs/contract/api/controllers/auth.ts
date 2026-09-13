@@ -14,4 +14,11 @@ export const AUTH_ROUTES = {
         GET_AUTHENTICATION_OPTIONS: 'passkey/authentication/options', // get
         VERIFY_AUTHENTICATION: 'passkey/authentication/verify', // post
     },
+    TWO_FACTOR: {
+        STATUS: '2fa/status', // get
+        SETUP: '2fa/setup', // post
+        VERIFY: '2fa/verify', // post
+        DISABLE: '2fa/disable', // post
+        LOGIN: '2fa/login', // post
+    },
 } as const;

@@ -17,6 +17,7 @@ import {
     OAuth2CallbackCommand,
     GetPasskeyAuthenticationOptionsCommand,
     VerifyPasskeyAuthenticationCommand,
+    TwoFactorLoginCommand,
 } from '@libs/contracts/commands';
 
 import { RemnawaveSettingsEntity } from '@modules/remnawave-settings/entities';
@@ -35,6 +36,8 @@ import {
     GetPasskeyAuthenticationOptionsResponseDto,
     VerifyPasskeyAuthenticationBodyDto,
     VerifyPasskeyAuthenticationResponseDto,
+    TwoFactorLoginBodyDto,
+    TwoFactorLoginResponseDto,
 } from './dtos';
 import { AuthResponseModel } from './model/auth-response.model';
 import { RegisterResponseModel } from './model/register.response.model';
@@ -74,6 +77,28 @@ export class AuthController {
         const data = errorHandler(result);
         return {
             response: new RegisterResponseModel(data),
+        };
+    }
+
+    /**
+     * Второй шаг входа — публичный, как и /login: билет второго фактора
+     * подписан отдельным секретом и JwtDefaultGuard его бы не принял.
+     */
+    @Endpoint({
+        command: TwoFactorLoginCommand,
+        httpCode: HttpStatus.OK,
+        type: TwoFactorLoginResponseDto,
+    })
+    async twoFactorLogin(
+        @Body() body: TwoFactorLoginBodyDto,
+        @IpAddress() ip: string,
+        @UserAgent() userAgent: string,
+    ): Promise<TwoFactorLoginResponseDto> {
+        const result = await this.authService.loginTwoFactor(body, ip, userAgent);
+
+        const data = errorHandler(result);
+        return {
+            response: data,
         };
     }
 

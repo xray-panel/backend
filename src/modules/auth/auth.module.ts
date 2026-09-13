@@ -11,10 +11,11 @@ import { COMMANDS } from './commands';
 import { LoginAttemptsService } from './login-attempts.service';
 import { InjectRemnawaveSettingsMiddleware } from './middlewares/inject-remnawave-settings';
 import { JwtStrategy } from './strategies';
+import { TwoFactorController } from './two-factor.controller';
 
 @Module({
     imports: [CqrsModule, JwtModule.registerAsync(getJWTConfig()), HttpModule],
-    controllers: [AuthController],
+    controllers: [AuthController, TwoFactorController],
     providers: [JwtStrategy, AuthService, LoginAttemptsService, ...COMMANDS],
 })
 export class AuthModule implements NestModule {

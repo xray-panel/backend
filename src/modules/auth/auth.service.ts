@@ -4,6 +4,8 @@ import {
     generateAuthenticationOptions,
     verifyAuthenticationResponse,
 } from '@simplewebauthn/server';
+import { createHmac } from 'node:crypto';
+
 import * as arctic from 'arctic';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
@@ -16,6 +18,15 @@ import { JwtService } from '@nestjs/jwt';
 
 import { TypedConfigService } from '@common/config/app-config';
 import { hashPassword, verifyPassword } from '@common/helpers/password/password.helper';
+import {
+    buildOtpauthUrl,
+    generateTotpSecret,
+    verifyTotpCode,
+} from '@common/helpers/totp/totp';
+import {
+    decryptTotpSecret,
+    encryptTotpSecret,
+} from '@common/helpers/totp/totp-secret-crypto';
 import { RawCacheService } from '@common/raw-cache';
 import { fail, ok, TResult } from '@common/types';
 import { AUTH_ROUTES } from '@libs/contracts/api';
@@ -32,6 +43,7 @@ import { ERRORS } from '@libs/contracts/constants/errors';
 import { ServiceEvent } from '@integration-modules/notifications/interfaces';
 
 import { CreateAdminCommand } from '@modules/admin/commands/create-admin';
+import { UpdateAdminTotpCommand } from '@modules/admin/commands/update-admin-totp';
 import { UpdatePasskeyCommand } from '@modules/admin/commands/update-passkey';
 import { AdminEntity } from '@modules/admin/entities/admin.entity';
 import { CountAdminsByRoleQuery } from '@modules/admin/queries/count-admins-by-role';
@@ -43,7 +55,7 @@ import { RemnawaveSettingsEntity } from '@modules/remnawave-settings/entities';
 import { GetCachedRemnawaveSettingsQuery } from '@modules/remnawave-settings/queries/get-cached-remnawave-settings';
 
 import { VerifyPasskeyAuthenticationBodyDto } from './dtos';
-import { ILogin, IRegister } from './interfaces';
+import { ILogin, IRegister, ITwoFactorLogin } from './interfaces';
 import { LoginAttemptsService } from './login-attempts.service';
 import {
     OAuth2AuthorizeResponseModel,
@@ -53,11 +65,27 @@ import {
 const REMNAWAVE_CUSTOM_CLAIM_KEY = 'remnawaveAccess';
 const OAUTH2_SCOPES = ['email', 'profile', 'openid'];
 
+/**
+ * Метка для производного секрета TOTP-билета. Билет второго фактора
+ * подписывается НЕ тем ключом, что access-токен: иначе его можно было бы
+ * предъявить как обычный токен доступа.
+ */
+const TOTP_TICKET_SECRET_LABEL = 'xpanel-totp-ticket-v1';
+const TOTP_TICKET_EXPIRES_IN = '5m';
+const TOTP_ISSUER = 'XPANEL';
+
+interface ITotpTicketPayload {
+    purpose: 'totp';
+    username: string;
+    uuid: string;
+}
+
 @Injectable()
 export class AuthService {
     private readonly logger = new Logger(AuthService.name);
     private readonly jwtSecret: string;
     private readonly jwtLifetime: number;
+    private readonly totpTicketSecret: string;
 
     constructor(
         private readonly rawCacheService: RawCacheService,
@@ -71,6 +99,9 @@ export class AuthService {
     ) {
         this.jwtSecret = this.configService.getOrThrow('APP_SECRET');
         this.jwtLifetime = this.configService.getOrThrow('JWT_AUTH_LIFETIME');
+        this.totpTicketSecret = createHmac('sha256', this.jwtSecret)
+            .update(TOTP_TICKET_SECRET_LABEL)
+            .digest('hex');
     }
 
     public async login(
@@ -79,7 +110,9 @@ export class AuthService {
         userAgent: string,
     ): Promise<
         TResult<{
-            accessToken: string;
+            accessToken: null | string;
+            twoFactorRequired: boolean;
+            twoFactorTicket: null | string;
         }>
     > {
         try {
@@ -161,6 +194,28 @@ export class AuthService {
                 return fail(ERRORS.FORBIDDEN);
             }
 
+            // Второй фактор включён: токен доступа не выдаём, пока администратор
+            // не подтвердит TOTP-код через /auth/2fa/login. Билет подписан
+            // производным секретом — предъявить его как access-токен нельзя.
+            // Успешный вход и счётчик неудач на этом шаге не трогаем: попытка
+            // ещё не завершена.
+            if (admin.response.totpEnabled && admin.response.totpSecret) {
+                const twoFactorTicket = this.jwtService.sign(
+                    {
+                        username,
+                        uuid: admin.response.uuid,
+                        purpose: 'totp',
+                    } satisfies ITotpTicketPayload,
+                    { secret: this.totpTicketSecret, expiresIn: TOTP_TICKET_EXPIRES_IN },
+                );
+
+                return ok({
+                    accessToken: null,
+                    twoFactorRequired: true,
+                    twoFactorTicket,
+                });
+            }
+
             const accessToken = this.jwtService.sign(
                 {
                     username,
@@ -173,10 +228,235 @@ export class AuthService {
             await this.loginAttemptsService.registerSuccess(username);
             await this.emitLoginSuccess(username, ip, userAgent);
 
+            return ok({ accessToken, twoFactorRequired: false, twoFactorTicket: null });
+        } catch (error) {
+            this.logger.error(error);
+            return fail(ERRORS.LOGIN_ERROR);
+        }
+    }
+
+    /**
+     * Второй шаг входа: билет из /auth/login + TOTP-код.
+     *
+     * Билет проверяется производным секретом и маркером purpose, поэтому
+     * access-токен сюда не подойдёт и билет не годится как access-токен.
+     */
+    public async loginTwoFactor(
+        dto: ITwoFactorLogin,
+        ip: string,
+        userAgent: string,
+    ): Promise<TResult<{ accessToken: string }>> {
+        try {
+            let payload: ITotpTicketPayload;
+            try {
+                payload = await this.jwtService.verifyAsync<ITotpTicketPayload>(dto.ticket, {
+                    secret: this.totpTicketSecret,
+                });
+            } catch {
+                return fail(ERRORS.TOTP_TICKET_INVALID);
+            }
+
+            if (payload.purpose !== 'totp' || !payload.username || !payload.uuid) {
+                return fail(ERRORS.TOTP_TICKET_INVALID);
+            }
+
+            const blockStatus = await this.loginAttemptsService.getBlockStatus(
+                payload.username,
+                ip,
+            );
+            if (blockStatus.blocked) {
+                return fail(ERRORS.LOGIN_ATTEMPTS_EXCEEDED);
+            }
+
+            const admin = await this.getAdminByUsername({
+                username: payload.username,
+                role: ROLE.ADMIN,
+            });
+
+            if (!admin.isOk || admin.response.uuid !== payload.uuid) {
+                return fail(ERRORS.TOTP_TICKET_INVALID);
+            }
+
+            if (!admin.response.totpEnabled || !admin.response.totpSecret) {
+                return fail(ERRORS.TOTP_NOT_ENABLED);
+            }
+
+            const secret = decryptTotpSecret(admin.response.totpSecret, this.jwtSecret);
+
+            if (!verifyTotpCode(secret, dto.code)) {
+                await this.emitFailedLoginAttempt(
+                    payload.username,
+                    ip,
+                    userAgent,
+                    'Invalid two-factor authentication code.',
+                );
+                await this.loginAttemptsService.registerFailure(payload.username, ip);
+                this.logger.error('Invalid two-factor authentication code.');
+                return fail(ERRORS.TOTP_INVALID_CODE);
+            }
+
+            const accessToken = this.jwtService.sign(
+                {
+                    username: admin.response.username,
+                    uuid: admin.response.uuid,
+                    role: ROLE.ADMIN,
+                },
+                { expiresIn: `${this.jwtLifetime}h` },
+            );
+
+            await this.loginAttemptsService.registerSuccess(payload.username);
+            await this.emitLoginSuccess(
+                payload.username,
+                ip,
+                userAgent,
+                'Two-factor authentication successful.',
+            );
+
             return ok({ accessToken });
         } catch (error) {
             this.logger.error(error);
             return fail(ERRORS.LOGIN_ERROR);
+        }
+    }
+
+    public async getTwoFactorStatus(
+        username: string,
+    ): Promise<TResult<{ isEnabled: boolean }>> {
+        try {
+            const admin = await this.getAdminByUsername({ username, role: ROLE.ADMIN });
+
+            if (!admin.isOk) {
+                return fail(ERRORS.FORBIDDEN);
+            }
+
+            return ok({ isEnabled: admin.response.totpEnabled });
+        } catch (error) {
+            this.logger.error(error);
+            return fail(ERRORS.TOTP_ERROR);
+        }
+    }
+
+    /**
+     * Генерирует новый секрет и кладёт его в базу зашифрованным. Второй фактор
+     * включается только после verifyTwoFactor: до подтверждения кода вход
+     * по-прежнему проходит без TOTP, иначе администратор мог бы потерять
+     * доступ из-за непривязанного приложения.
+     */
+    public async setupTwoFactor(
+        username: string,
+    ): Promise<TResult<{ otpauthUrl: string; secret: string }>> {
+        try {
+            const admin = await this.getAdminByUsername({ username, role: ROLE.ADMIN });
+
+            if (!admin.isOk) {
+                return fail(ERRORS.FORBIDDEN);
+            }
+
+            if (admin.response.totpEnabled) {
+                return fail(ERRORS.TOTP_ALREADY_ENABLED);
+            }
+
+            const secret = generateTotpSecret();
+            const encrypted = encryptTotpSecret(secret, this.jwtSecret);
+
+            const updated = await this.commandBus.execute<
+                UpdateAdminTotpCommand,
+                TResult<AdminEntity>
+            >(new UpdateAdminTotpCommand(admin.response.uuid, encrypted, false));
+
+            if (!updated.isOk) {
+                return fail(ERRORS.UPDATE_ADMIN_ERROR);
+            }
+
+            return ok({
+                secret,
+                otpauthUrl: buildOtpauthUrl({
+                    secret,
+                    account: admin.response.username,
+                    issuer: TOTP_ISSUER,
+                }),
+            });
+        } catch (error) {
+            this.logger.error(error);
+            return fail(ERRORS.TOTP_ERROR);
+        }
+    }
+
+    public async verifyTwoFactor(
+        username: string,
+        code: string,
+    ): Promise<TResult<{ isEnabled: boolean }>> {
+        try {
+            const admin = await this.getAdminByUsername({ username, role: ROLE.ADMIN });
+
+            if (!admin.isOk) {
+                return fail(ERRORS.FORBIDDEN);
+            }
+
+            if (admin.response.totpEnabled) {
+                return fail(ERRORS.TOTP_ALREADY_ENABLED);
+            }
+
+            if (!admin.response.totpSecret) {
+                return fail(ERRORS.TOTP_NOT_ENABLED);
+            }
+
+            const secret = decryptTotpSecret(admin.response.totpSecret, this.jwtSecret);
+
+            if (!verifyTotpCode(secret, code)) {
+                return fail(ERRORS.TOTP_INVALID_CODE);
+            }
+
+            const updated = await this.commandBus.execute<
+                UpdateAdminTotpCommand,
+                TResult<AdminEntity>
+            >(new UpdateAdminTotpCommand(admin.response.uuid, admin.response.totpSecret, true));
+
+            if (!updated.isOk) {
+                return fail(ERRORS.UPDATE_ADMIN_ERROR);
+            }
+
+            return ok({ isEnabled: true });
+        } catch (error) {
+            this.logger.error(error);
+            return fail(ERRORS.TOTP_ERROR);
+        }
+    }
+
+    public async disableTwoFactor(
+        username: string,
+        code: string,
+    ): Promise<TResult<{ isEnabled: boolean }>> {
+        try {
+            const admin = await this.getAdminByUsername({ username, role: ROLE.ADMIN });
+
+            if (!admin.isOk) {
+                return fail(ERRORS.FORBIDDEN);
+            }
+
+            if (!admin.response.totpEnabled || !admin.response.totpSecret) {
+                return fail(ERRORS.TOTP_NOT_ENABLED);
+            }
+
+            const secret = decryptTotpSecret(admin.response.totpSecret, this.jwtSecret);
+
+            if (!verifyTotpCode(secret, code)) {
+                return fail(ERRORS.TOTP_INVALID_CODE);
+            }
+
+            const updated = await this.commandBus.execute<
+                UpdateAdminTotpCommand,
+                TResult<AdminEntity>
+            >(new UpdateAdminTotpCommand(admin.response.uuid, null, false));
+
+            if (!updated.isOk) {
+                return fail(ERRORS.UPDATE_ADMIN_ERROR);
+            }
+
+            return ok({ isEnabled: false });
+        } catch (error) {
+            this.logger.error(error);
+            return fail(ERRORS.TOTP_ERROR);
         }
     }
 

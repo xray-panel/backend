@@ -21,7 +21,9 @@ export namespace LoginCommand {
 
     export const ResponseSchema = z.object({
         response: z.object({
-            accessToken: z.string(),
+            accessToken: z.nullable(z.string()),
+            twoFactorRequired: z.boolean(),
+            twoFactorTicket: z.nullable(z.string()),
         }),
     });
 
