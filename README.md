@@ -362,6 +362,7 @@ npm run generate:openapi   # сборка и генерация OpenAPI-доку
 - https://github.com/xray-panel/frontend — интерфейс панели
 - https://github.com/xray-panel/node — нода
 - https://github.com/xray-panel/subscription-page — страница подписки
+- Telegram-канал проекта — https://t.me/x_lada
 
 ## Лицензия
 

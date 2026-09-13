@@ -1366,4 +1366,9 @@ export const ERRORS = {
         message: 'Two-factor authentication error',
         httpCode: 500,
     },
+    TOTP_SECRET_MISSING: {
+        code: 'A272',
+        message: 'Two-factor authentication is enabled but not configured. Reset it in the database.',
+        httpCode: 400,
+    },
 } as const;

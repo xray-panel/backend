@@ -18,13 +18,13 @@ export async function getStartMessage() {
             [
                 chalk.green('💬 Community') +
                     chalk.gray(' ······ ') +
-                    chalk.white('https://github.com/xray-panel'),
+                    chalk.white('https://t.me/x_lada'),
             ],
             [chalk.gray('─'.repeat(60))],
             [
                 chalk.yellow('🛠️  Rescue CLI') +
                     chalk.gray(' ······ ') +
-                    chalk.dim('docker exec -it remnawave cli'),
+                    chalk.dim('docker exec -it xpanel cli'),
             ],
             [chalk.blue('▰▱'.repeat(30))],
         ],

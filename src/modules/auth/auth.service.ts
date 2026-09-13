@@ -199,6 +199,24 @@ export class AuthService {
             // производным секретом — предъявить его как access-токен нельзя.
             // Успешный вход и счётчик неудач на этом шаге не трогаем: попытка
             // ещё не завершена.
+            // Включённый второй фактор без секрета — это испорченное
+            // состояние, а не разрешение войти. Раньше такая запись молча
+            // пропускала вход без кода: достаточно было обнулить секрет в
+            // базе, и защита исчезала. Теперь это отказ.
+            if (admin.response.totpEnabled && !admin.response.totpSecret) {
+                this.logger.error(
+                    `Two-factor is enabled but the secret is missing (admin uuid=${admin.response.uuid}).`,
+                );
+                await this.emitFailedLoginAttempt(
+                    username,
+                    ip,
+                    userAgent,
+                    'Two-factor is enabled but the secret is missing.',
+                );
+                await this.loginAttemptsService.registerFailure(username, ip);
+                return fail(ERRORS.TOTP_SECRET_MISSING);
+            }
+
             if (admin.response.totpEnabled && admin.response.totpSecret) {
                 const twoFactorTicket = this.jwtService.sign(
                     {

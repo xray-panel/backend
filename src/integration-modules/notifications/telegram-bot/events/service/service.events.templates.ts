@@ -21,7 +21,7 @@ export const SERVICE_EVENTS_TEMPLATES: Record<TServiceEvents, ServiceEventsTempl
 ${separator}
 <tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> XLADA v${e.data.panelVersion} is up and running.
 
-<tg-emoji emoji-id='5463036196777128277'>🦋</tg-emoji> Join community: @remnawave
+<tg-emoji emoji-id='5463036196777128277'>🦋</tg-emoji> Join community: @x_lada
 <tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://xlada.app`,
         keyboard: [
             {
