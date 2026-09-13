@@ -27,7 +27,10 @@ import {
     VerifyTwoFactorBodyDto,
     VerifyTwoFactorResponseDto,
 } from './dtos';
-import { IJWTAuthPayload } from './interfaces';
+// Именно type-импорт: интерфейс используется только как тип, а при
+// emitDecoratorMetadata компилятор иначе оставляет ссылку на него в
+// сгенерированном коде и сборка падает на «module has no exports».
+import type { IJWTAuthPayload } from './interfaces';
 
 /**
  * Управление вторым фактором текущего администратора. Отдельный контроллер,
