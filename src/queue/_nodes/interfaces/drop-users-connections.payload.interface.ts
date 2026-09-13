@@ -1,4 +1,4 @@
-import { DropUsersConnectionsCommand } from '@xpanel/node-contract';
+import { DropUsersConnectionsCommand } from '@xlada/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

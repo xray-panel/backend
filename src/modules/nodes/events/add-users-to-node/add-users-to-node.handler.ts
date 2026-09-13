@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { EventsHandler } from '@nestjs/cqrs';
 
-import { AddUsersCommand as AddUsersToNodeCommandSdk } from '@xpanel/node-contract';
+import { AddUsersCommand as AddUsersToNodeCommandSdk } from '@xlada/node-contract';
 
 import { isSS2022Method } from '@common/helpers/xray-config/ss-cipher';
 import { getVlessFlowFromDbInbound } from '@common/utils/flow/get-vless-flow';

@@ -69,9 +69,9 @@ RUN npm run migrate:generate \
     && npm run build \
     && npm prune --omit=dev \
     && npm install --omit=dev --ignore-scripts --no-audit --no-fund \
-    && rm -rf node_modules/@xpanel/hashed-set node_modules/@xpanel/node-contract \
-    && cp -a libs/hashed-set node_modules/@xpanel/hashed-set \
-    && cp -a vendor/node-contract node_modules/@xpanel/node-contract \
+    && rm -rf node_modules/@xlada/hashed-set node_modules/@xlada/node-contract \
+    && cp -a libs/hashed-set node_modules/@xlada/hashed-set \
+    && cp -a vendor/node-contract node_modules/@xlada/node-contract \
     && npm cache clean --force
 
 RUN cd node_modules/@prisma/client/runtime && \
@@ -90,13 +90,13 @@ RUN cd node_modules/@prisma/client/runtime && \
 
 FROM node:24.21-trixie-slim
 
-LABEL org.opencontainers.image.title="XPANEL"
+LABEL org.opencontainers.image.title="XLADA"
 LABEL org.opencontainers.image.description="Powerful proxy management tool"
 LABEL org.opencontainers.image.url="https://github.com/xray-panel/backend"
 LABEL org.opencontainers.image.source="https://github.com/xray-panel/backend"
-LABEL org.opencontainers.image.vendor="XPANEL"
+LABEL org.opencontainers.image.vendor="XLADA"
 LABEL org.opencontainers.image.licenses="AGPL-3.0"
-LABEL org.opencontainers.image.documentation="https://docs.xraypanel.dev"
+LABEL org.opencontainers.image.documentation="https://xlada.app"
 
 WORKDIR /opt/app
 

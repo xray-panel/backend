@@ -2,8 +2,8 @@
 # Интеграционная проверка двухфакторной аутентификации (TOTP) на живом стенде.
 #
 # Устроена так же, как scripts/test-admin-api.sh: те же приёмы с curl, тот же
-# заголовок X-XPANEL-Client-Type: browser (без него браузерный JWT получает
-# 403), та же переменная XPANEL_ADMIN_PASSWORD.
+# заголовок X-XLADA-Client-Type: browser (без него браузерный JWT получает
+# 403), та же переменная XLADA_ADMIN_PASSWORD.
 #
 # Сценарий: статус выключен -> setup выдаёт секрет -> неверный код не включает
 # второй фактор -> верный код включает -> вход теперь требует второй фактор ->
@@ -14,8 +14,8 @@
 # (HMAC-SHA1, 30 секунд, 6 цифр), что и apps/backend/src/common/helpers/totp.
 #
 # Использование:
-#   XPANEL_BASE_URL=https://panel.example.com \
-#   XPANEL_ADMIN_PASSWORD='...' \
+#   XLADA_BASE_URL=https://panel.example.com \
+#   XLADA_ADMIN_PASSWORD='...' \
 #   bash scripts/test-two-factor.sh
 #
 # ВНИМАНИЕ: включает и выключает второй фактор на реальном стенде. Секрет
@@ -24,11 +24,11 @@
 
 set -Eeuo pipefail
 
-BASE_URL="${XPANEL_BASE_URL:-https://panel.kitten443.dev}"
-ADMIN_PASSWORD="${XPANEL_ADMIN_PASSWORD:-}"
+BASE_URL="${XLADA_BASE_URL:-https://panel.kitten443.dev}"
+ADMIN_PASSWORD="${XLADA_ADMIN_PASSWORD:-}"
 
 if [[ -z "$ADMIN_PASSWORD" ]]; then
-    echo "ОШИБКА: не задан XPANEL_ADMIN_PASSWORD" >&2
+    echo "ОШИБКА: не задан XLADA_ADMIN_PASSWORD" >&2
     exit 1
 fi
 
@@ -54,7 +54,7 @@ req() {
     # Панель обращается к API с браузерным JWT, а JwtDefaultGuard пускает такие
     # токены только при наличии этого заголовка — без него будет 403.
     local args=(-s -o "$BODY_FILE" -w '%{http_code}' -X "$method" "$BASE_URL$path")
-    args+=(-H 'X-XPANEL-Client-Type: browser')
+    args+=(-H 'X-XLADA-Client-Type: browser')
     [[ -n "$token" ]] && args+=(-H "Authorization: Bearer $token")
     if [[ -n "$data" ]]; then
         args+=(-H 'Content-Type: application/json' -d "$data")

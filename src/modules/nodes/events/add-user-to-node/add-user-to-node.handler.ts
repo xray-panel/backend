@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { IEventHandler, QueryBus } from '@nestjs/cqrs';
 import { EventsHandler } from '@nestjs/cqrs';
 
-import { AddUserCommand as AddUserToNodeCommandSdk } from '@xpanel/node-contract';
+import { AddUserCommand as AddUserToNodeCommandSdk } from '@xlada/node-contract';
 
 import {
     getCipherTypeFromString,

@@ -10,7 +10,7 @@ export namespace GetMetadataCommand {
     export const endpointDetails = getEndpointDetails(
         SYSTEM_ROUTES.METADATA,
         'get',
-        'Get XPANEL Information',
+        'Get XLADA Information',
         { scope: 'metadata', kind: 'read' },
     );
 

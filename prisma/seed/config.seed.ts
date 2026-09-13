@@ -43,7 +43,7 @@ const prisma = new PrismaClient({
 const SEED_STEPS = [
     { name: 'Fix Old Migrations', fn: fixOldMigrations },
     { name: 'Checkup External Squads', fn: checkupExternalSquads },
-    { name: 'XPANEL Settings', fn: seedRemnawaveSettings },
+    { name: 'XLADA Settings', fn: seedRemnawaveSettings },
     { name: 'Subscription Templates', fn: seedSubscriptionTemplate },
     { name: 'Default Config Profile', fn: seedDefaultConfigProfile },
     { name: 'Sync Inbounds', fn: syncInbounds },

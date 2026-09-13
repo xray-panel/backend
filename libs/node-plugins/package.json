@@ -1,7 +1,7 @@
 {
-  "name": "@xpanel/node-plugins",
+  "name": "@xlada/node-plugins",
   "version": "0.8.2",
-  "description": "A library for XPANEL Node Plugins.",
+  "description": "A library for XLADA Node Plugins.",
   "keywords": [],
   "homepage": "https://github.com/xray-panel",
   "bugs": {

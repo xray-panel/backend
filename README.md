@@ -1,6 +1,6 @@
-# XPANEL Backend
+# XLADA Backend
 
-**XPANEL** — самостоятельная панель управления Xray. Проект основан на
+**XLADA** — самостоятельная панель управления Xray. Проект основан на
 [Remnawave](https://github.com/remnawave) и является форком
 [remnawave/backend](https://github.com/remnawave/backend).
 
@@ -13,8 +13,8 @@
 
 ## Атрибуция
 
-XPANEL — производная работа от Remnawave. Исходный код Remnawave
-распространяется под лицензией AGPL-3.0-only, и XPANEL сохраняет ту же
+XLADA — производная работа от Remnawave. Исходный код Remnawave
+распространяется под лицензией AGPL-3.0-only, и XLADA сохраняет ту же
 лицензию. Все права на оригинальный код принадлежат авторам Remnawave.
 Подробности — в файле `NOTICE`.
 
@@ -22,11 +22,11 @@ XPANEL — производная работа от Remnawave. Исходный 
 вы обязаны опубликовать её исходный код.
 
 Названия «Remnawave», её логотипы и домены принадлежат авторам Remnawave и в
-XPANEL не используются.
+XLADA не используются.
 
 ---
 
-## Что такое XPANEL Backend
+## Что такое XLADA Backend
 
 Backend панели: REST API, работа с базой данных, очереди задач, планировщик и
 отдача собранного фронтенда.
@@ -206,7 +206,7 @@ docker compose logs -f xpanel
 Дождитесь в логе строки:
 
 ```
-🌊 XPANEL Backend v1.1.1
+🌊 XLADA Backend v1.1.1
 Nest application successfully started
 ```
 
@@ -252,7 +252,7 @@ certbot --nginx -d panel.example.com
 
 Требования к паролю (заданы в контракте `libs/contract`): **не короче 24
 символов**, обязательно строчные, прописные и цифры. Например:
-`XpanelProd2026SecurePass!`.
+`XladaProd2026SecurePass!`.
 
 Сразу после входа создайте API-токен в *Settings → API Tokens* — он нужен
 странице подписки.

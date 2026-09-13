@@ -35,7 +35,7 @@ import {
     StopXrayCommand,
     SyncCommand,
     UnblockIpsCommand,
-} from '@xpanel/node-contract';
+} from '@xlada/node-contract';
 
 import { prettyBytesUtil } from '@common/utils/bytes';
 import { deriveSni } from '@common/utils/certs';
@@ -87,7 +87,7 @@ export class AxiosService {
 
             if (!result.isOk) {
                 throw new Error(
-                    'There are a problem with the JWT token. Please restart XPANEL.',
+                    'There are a problem with the JWT token. Please restart XLADA.',
                 );
             }
 

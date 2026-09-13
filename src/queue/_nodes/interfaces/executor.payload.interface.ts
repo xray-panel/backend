@@ -1,4 +1,4 @@
-import { BlockIpsCommand, UnblockIpsCommand } from '@xpanel/node-contract';
+import { BlockIpsCommand, UnblockIpsCommand } from '@xlada/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

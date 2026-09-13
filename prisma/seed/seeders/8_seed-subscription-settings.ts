@@ -13,7 +13,7 @@ export async function seedSubscriptionSettings(prisma: PrismaClient) {
         limitedUsers: ['🚧 Subscription limited', 'Contact support'],
         disabledUsers: ['🚫 Subscription disabled', 'Contact support'],
         emptyHosts: [
-            '→ XPANEL',
+            '→ XLADA',
             '→ No hosts found',
             '→ Check Hosts tab',
             '→ Check Internal Squads tab',
@@ -82,7 +82,7 @@ export async function seedSubscriptionSettings(prisma: PrismaClient) {
             isShowCustomRemarks: true,
             customRemarks,
             customResponseHeaders: {
-                'profile-title': 'rwEncodeBase64:XPANEL',
+                'profile-title': 'rwEncodeBase64:XLADA',
                 'profile-update-interval': '12',
                 'support-url': 'https://example.com',
                 'profile-web-page-url': '{{SUBSCRIPTION_URL}}',

@@ -696,12 +696,12 @@ export const ERRORS = {
     },
     RESERVED_INTERNAL_SQUAD_NAME: {
         code: 'A144',
-        message: 'This name is reserved by XPANEL. Please use a different name.',
+        message: 'This name is reserved by XLADA. Please use a different name.',
         httpCode: 400,
     },
     RESERVED_CONFIG_PROFILE_NAME: {
         code: 'A145',
-        message: 'This name is reserved by XPANEL. Please use a different name.',
+        message: 'This name is reserved by XLADA. Please use a different name.',
         httpCode: 400,
     },
     UPDATE_CONFIG_PROFILE_ERROR: {
@@ -936,12 +936,12 @@ export const ERRORS = {
     },
     GET_REMNAWAVE_SETTINGS_ERROR: {
         code: 'A192',
-        message: 'Get XPANEL settings error',
+        message: 'Get XLADA settings error',
         httpCode: 500,
     },
     UPDATE_REMNAWAVE_SETTINGS_ERROR: {
         code: 'A193',
-        message: 'Update XPANEL settings error',
+        message: 'Update XLADA settings error',
         httpCode: 500,
     },
     PASSKEYS_NOT_CONFIGURED: {
@@ -976,7 +976,7 @@ export const ERRORS = {
     },
     VALIDATE_REMNAWAVE_SETTINGS_ERROR: {
         code: 'A199',
-        message: 'Validate XPANEL settings error',
+        message: 'Validate XLADA settings error',
         httpCode: 500,
         withMessage: (message: string) => ({
             code: 'A199',
@@ -1066,7 +1066,7 @@ export const ERRORS = {
     },
     INVALID_REMNAWAVE_INJECTOR: {
         code: 'A216',
-        message: 'Invalid XPANEL injector',
+        message: 'Invalid XLADA injector',
         httpCode: 400,
     },
     JOB_CREATION_FAILED: {

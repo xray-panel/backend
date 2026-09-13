@@ -1,5 +1,5 @@
 x-base: &base
-  image: xpanel/backend:3
+  image: xlada/backend:3
 
 x-common: &common
   ulimits:

@@ -6,19 +6,19 @@
 # смена пароля, удаление и защиты от опасных удалений.
 #
 # Использование:
-#   XPANEL_BASE_URL=https://panel.example.com \
-#   XPANEL_ADMIN_PASSWORD='...' \
+#   XLADA_BASE_URL=https://panel.example.com \
+#   XLADA_ADMIN_PASSWORD='...' \
 #   bash scripts/test-admin-api.sh
 #
 # ВНИМАНИЕ: создаёт и удаляет временного администратора на реальном стенде.
 
 set -Eeuo pipefail
 
-BASE_URL="${XPANEL_BASE_URL:-https://panel.kitten443.dev}"
-ADMIN_PASSWORD="${XPANEL_ADMIN_PASSWORD:-}"
+BASE_URL="${XLADA_BASE_URL:-https://panel.kitten443.dev}"
+ADMIN_PASSWORD="${XLADA_ADMIN_PASSWORD:-}"
 
 if [[ -z "$ADMIN_PASSWORD" ]]; then
-    echo "ОШИБКА: не задан XPANEL_ADMIN_PASSWORD" >&2
+    echo "ОШИБКА: не задан XLADA_ADMIN_PASSWORD" >&2
     exit 1
 fi
 
@@ -46,7 +46,7 @@ req() {
     # Панель обращается к API с браузерным JWT, а JwtDefaultGuard пускает такие
     # токены только при наличии этого заголовка — без него будет 403.
     local args=(-s -o "$BODY_FILE" -w '%{http_code}' -X "$method" "$BASE_URL$path")
-    args+=(-H 'X-XPANEL-Client-Type: browser')
+    args+=(-H 'X-XLADA-Client-Type: browser')
     [[ -n "$token" ]] && args+=(-H "Authorization: Bearer $token")
     if [[ -n "$data" ]]; then
         args+=(-H 'Content-Type: application/json' -d "$data")

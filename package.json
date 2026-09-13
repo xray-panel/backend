@@ -1,8 +1,8 @@
 {
-    "name": "@xpanel/backend",
+    "name": "@xlada/backend",
     "version": "1.1.1",
     "private": false,
-    "description": "XPANEL Panel Backend",
+    "description": "XLADA Panel Backend",
     "homepage": "https://github.com/xray-panel",
     "bugs": {
         "url": "https://github.com/xray-panel/backend/issues"
@@ -68,8 +68,8 @@
         "@stablelib/base64": "^2.0.1",
         "@stablelib/x25519": "^2.0.1",
         "@willsoto/nestjs-prometheus": "^6.1.1",
-        "@xpanel/hashed-set": "file:./libs/hashed-set",
-        "@xpanel/node-contract": "file:./vendor/node-contract",
+        "@xlada/hashed-set": "file:./libs/hashed-set",
+        "@xlada/node-contract": "file:./vendor/node-contract",
         "age-encryption": "^0.3.1",
         "arctic": "^3.7.0",
         "axios": "^1.18.1",

@@ -25,12 +25,12 @@ import {
 } from './extra-models';
 
 const description = `
-XPANEL is a powerful proxy management tool, built on top of Xray-core, with a focus on simplicity and ease of use.
+XLADA is a powerful proxy management tool, built on top of Xray-core, with a focus on simplicity and ease of use.
 
 ## Resources
 * https://github.com/xray-panel
 * https://github.com/xray-panel
-* https://docs.xraypanel.dev
+* https://xlada.app
 `;
 
 export async function createOpenApiDocumentFactory(
@@ -39,7 +39,7 @@ export async function createOpenApiDocumentFactory(
     const pkg = await readPackageJSON();
 
     const configSwagger = new DocumentBuilder()
-        .setTitle(`XPANEL API v${pkg.version}`)
+        .setTitle(`XLADA API v${pkg.version}`)
         .addBearerAuth(
             {
                 type: 'http',

@@ -19,7 +19,7 @@ x-env: &env
 
 services:
   remnawave:
-    image: xpanel/backend:3
+    image: xlada/backend:3
     container_name: xpanel
     hostname: xpanel
     <<: [*common, *logging, *env]

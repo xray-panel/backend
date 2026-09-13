@@ -19,10 +19,10 @@ export const SERVICE_EVENTS_TEMPLATES: Record<TServiceEvents, ServiceEventsTempl
         message: `
 <tg-emoji emoji-id='5418304400152096012'>🌊</tg-emoji> <b>#panel_started</b>
 ${separator}
-<tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> XPANEL v${e.data.panelVersion} is up and running.
+<tg-emoji emoji-id='5461117441612462242'>✅</tg-emoji> XLADA v${e.data.panelVersion} is up and running.
 
 <tg-emoji emoji-id='5463036196777128277'>🦋</tg-emoji> Join community: @remnawave
-<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://docs.xraypanel.dev`,
+<tg-emoji emoji-id='5415680458602081205'>📚</tg-emoji> Documentation: https://xlada.app`,
         keyboard: [
             {
                 url: 'https://github.com/xray-panel',
@@ -30,8 +30,8 @@ ${separator}
                 customEmoji: '5258039825805624495',
             },
             {
-                url: 'https://docs.xraypanel.dev/docs/donate/',
-                text: 'Support XPANEL',
+                url: 'https://xlada.app/docs/donate/',
+                text: 'Support XLADA',
                 customEmoji: '5404408875279458778',
                 style: 'primary',
             },

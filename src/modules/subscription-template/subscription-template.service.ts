@@ -317,7 +317,7 @@ export class SubscriptionTemplateService {
 
         if (!template) {
             this.logger.error(
-                `Template not found: ${name} ${type}! Database modification detected. Restart XPANEL!`,
+                `Template not found: ${name} ${type}! Database modification detected. Restart XLADA!`,
             );
 
             throw new Error('Template not found');
@@ -347,7 +347,7 @@ export class SubscriptionTemplateService {
 
         if (!templateContent) {
             this.logger.error(
-                `Template content is null: ${name} ${type}! Database modification detected. Restart XPANEL!`,
+                `Template content is null: ${name} ${type}! Database modification detected. Restart XLADA!`,
             );
 
             throw new Error('Template content is null');

@@ -270,7 +270,7 @@ events:
   # TORRENT BLOCKER EVENTS
   # ════════════════════════════════════════════════════════════════════════════
 
-  # Triggered when a torrent blocker report is collected from XPANEL Node
+  # Triggered when a torrent blocker report is collected from XLADA Node
   torrent_blocker.report:
     telegram: true
     webhook: true

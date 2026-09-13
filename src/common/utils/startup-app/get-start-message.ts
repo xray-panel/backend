@@ -8,12 +8,12 @@ export async function getStartMessage() {
     return table(
         [
             [chalk.blue('▰▱'.repeat(30))],
-            [chalk.blue(`🌊 XPANEL Backend v${pkg.version}`)],
+            [chalk.blue(`🌊 XLADA Backend v${pkg.version}`)],
             [chalk.gray('─'.repeat(60))],
             [
                 chalk.cyan('📚 Documentation') +
                     chalk.gray(' ········ ') +
-                    chalk.white('https://docs.xraypanel.dev'),
+                    chalk.white('https://xlada.app'),
             ],
             [
                 chalk.green('💬 Community') +

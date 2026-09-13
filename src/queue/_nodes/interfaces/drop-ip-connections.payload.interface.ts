@@ -1,4 +1,4 @@
-import { DropIpsCommand } from '@xpanel/node-contract';
+import { DropIpsCommand } from '@xlada/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

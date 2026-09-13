@@ -1,7 +1,7 @@
 {
-  "name": "@xpanel/subscription-page-types",
+  "name": "@xlada/subscription-page-types",
   "version": "0.6.2",
-  "description": "A types library for XPANEL Subscription Page.",
+  "description": "A types library for XLADA Subscription Page.",
   "keywords": [],
   "homepage": "https://github.com/xray-panel",
   "bugs": {

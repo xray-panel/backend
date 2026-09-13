@@ -1,4 +1,4 @@
-import { AddUsersCommand as AddUsersToNodeCommandSdk } from '@xpanel/node-contract';
+import { AddUsersCommand as AddUsersToNodeCommandSdk } from '@xlada/node-contract';
 
 import { INodeConnectionOpts } from '@common/axios';
 

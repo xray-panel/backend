@@ -2,7 +2,7 @@ import { XrayConfig } from 'xray-typed';
 
 import { Query } from '@nestjs/cqrs';
 
-import { StartXrayCommand } from '@xpanel/node-contract';
+import { StartXrayCommand } from '@xlada/node-contract';
 
 import { TResult } from '@common/types';
 

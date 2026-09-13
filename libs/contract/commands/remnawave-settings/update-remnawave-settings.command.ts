@@ -17,7 +17,7 @@ export namespace UpdateRemnawaveSettingsCommand {
     export const endpointDetails = getEndpointDetails(
         REMNAWAVE_SETTINGS_ROUTES.UPDATE,
         'patch',
-        'Update XPANEL settings',
+        'Update XLADA settings',
         { scope: 'update', kind: 'write' },
     );
 

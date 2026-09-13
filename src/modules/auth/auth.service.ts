@@ -70,9 +70,9 @@ const OAUTH2_SCOPES = ['email', 'profile', 'openid'];
  * подписывается НЕ тем ключом, что access-токен: иначе его можно было бы
  * предъявить как обычный токен доступа.
  */
-const TOTP_TICKET_SECRET_LABEL = 'xpanel-totp-ticket-v1';
+const TOTP_TICKET_SECRET_LABEL = 'xlada-totp-ticket-v1';
 const TOTP_TICKET_EXPIRES_IN = '5m';
-const TOTP_ISSUER = 'XPANEL';
+const TOTP_ISSUER = 'XLADA';
 
 interface ITotpTicketPayload {
     purpose: 'totp';
@@ -940,7 +940,7 @@ export class AuthService {
                 .get<{ email: string; primary: boolean }[]>('https://api.github.com/user/emails', {
                     headers: {
                         Authorization: `Bearer ${tokens.accessToken()}`,
-                        'User-Agent': 'XPANEL',
+                        'User-Agent': 'XLADA',
                     },
                 })
                 .pipe(
@@ -971,7 +971,7 @@ export class AuthService {
                 .get<{ default_email: string }>('https://login.yandex.ru/info?format=json', {
                     headers: {
                         Authorization: `Bearer ${tokens.accessToken()}`,
-                        'User-Agent': 'XPANEL',
+                        'User-Agent': 'XLADA',
                     },
                 })
                 .pipe(

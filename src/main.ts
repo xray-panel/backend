@@ -87,7 +87,7 @@ async function bootstrap(): Promise<void> {
             directives: {
                 'script-src': ["'self'", "'wasm-unsafe-eval'"],
                 'img-src': ["'self'", 'data:', 'https:'],
-                // ungh.cc убран: XPANEL не обращается к инфраструктуре вендора
+                // ungh.cc убран: XLADA не обращается к инфраструктуре вендора
                 // за версиями и звёздами репозитория.
                 //
                 // raw.githubusercontent.com остаётся только для двух
@@ -95,7 +95,7 @@ async function bootstrap(): Promise<void> {
                 // репозиториев апстрима: список шаблонов
                 // (shared/constants/templates/template-list-links.tsx) и статьи
                 // справки (shared/_modals/universal/help-drawer). Они подлежат
-                // переводу на собственный репозиторий XPANEL, после чего эту
+                // переводу на собственный репозиторий XLADA, после чего эту
                 // запись нужно удалить.
                 'connect-src': ["'self'", 'https://raw.githubusercontent.com'],
             },

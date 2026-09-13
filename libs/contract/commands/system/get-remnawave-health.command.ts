@@ -10,7 +10,7 @@ export namespace GetRemnawaveHealthCommand {
     export const endpointDetails = getEndpointDetails(
         SYSTEM_ROUTES.HEALTH,
         'get',
-        'Get XPANEL Health',
+        'Get XLADA Health',
         { scope: 'remnawave-health', kind: 'read' },
     );
 

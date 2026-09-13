@@ -10,7 +10,7 @@ export namespace GetConfigurationCommand {
     export const endpointDetails = getEndpointDetails(
         SYSTEM_ROUTES.CONFIGURATION,
         'get',
-        'Get XPANEL Configuration',
+        'Get XLADA Configuration',
         { scope: 'configuration', kind: 'read' },
         'Returns some of the configuration values.',
     );

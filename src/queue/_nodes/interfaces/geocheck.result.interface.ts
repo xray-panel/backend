@@ -1,4 +1,4 @@
-import { GetGeocheckCommand } from '@xpanel/node-contract';
+import { GetGeocheckCommand } from '@xlada/node-contract';
 
 export interface IGeocheckPayload {
     nodeUuid: string;

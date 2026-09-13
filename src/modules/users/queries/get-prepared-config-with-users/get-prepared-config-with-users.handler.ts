@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { IQueryHandler, QueryBus, QueryHandler } from '@nestjs/cqrs';
 
-import { HashedSet } from '@xpanel/hashed-set';
+import { HashedSet } from '@xlada/hashed-set';
 
 import { XRayConfig } from '@common/helpers/xray-config/xray-config.validator';
 import { fail, ok, TResult } from '@common/types';

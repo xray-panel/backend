@@ -57,9 +57,9 @@ export class WebhookLoggerQueueProcessor extends WorkerHost {
                     .post(job.data.url, job.data.payload, {
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-XPANEL-Signature': signature,
-                            'X-XPANEL-Timestamp': job.data.timestamp,
-                            'User-Agent': 'XPANEL',
+                            'X-XLADA-Signature': signature,
+                            'X-XLADA-Timestamp': job.data.timestamp,
+                            'User-Agent': 'XLADA',
                         },
                     })
                     .pipe(

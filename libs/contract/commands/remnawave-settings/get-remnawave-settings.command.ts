@@ -11,7 +11,7 @@ export namespace GetRemnawaveSettingsCommand {
     export const endpointDetails = getEndpointDetails(
         REMNAWAVE_SETTINGS_ROUTES.GET,
         'get',
-        'Get XPANEL settings',
+        'Get XLADA settings',
         { scope: 'get', kind: 'read' },
     );
 

@@ -1,7 +1,7 @@
 {
-    "name": "@xpanel/backend-contract",
+    "name": "@xlada/backend-contract",
     "version": "3.4.15",
-    "description": "A contract library for XPANEL Backend. It can be used in backend and frontend.",
+    "description": "A contract library for XLADA Backend. It can be used in backend and frontend.",
     "keywords": [],
     "homepage": "https://github.com/xray-panel",
     "bugs": {

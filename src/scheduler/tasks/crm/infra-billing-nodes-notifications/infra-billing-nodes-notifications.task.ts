@@ -46,7 +46,7 @@ export class InfraBillingNodesNotificationsTask {
                         {
                             nodeName: node.nodeName,
                             providerName: node.providerName,
-                            loginUrl: node.loginUrl ?? 'https://docs.xraypanel.dev',
+                            loginUrl: node.loginUrl ?? 'https://xlada.app',
                             nextBillingAt: node.nextBillingAt,
                         },
                         EVENTS.CRM[node.notificationType],

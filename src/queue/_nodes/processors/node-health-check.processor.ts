@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import { GetSystemStatsCommand } from '@xpanel/node-contract';
+import { GetSystemStatsCommand } from '@xlada/node-contract';
 
 import { AxiosService, INodeConnectionOpts } from '@common/axios';
 import { RawCacheService } from '@common/raw-cache';

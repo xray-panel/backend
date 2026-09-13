@@ -125,7 +125,7 @@ export class StartNodeProcessor extends WorkerHost {
                 await this.commandBus.execute(
                     new UpdateNodeCommand({
                         uuid: node.uuid,
-                        lastStatusMessage: `Outdated version ${xrayStatusResponse.response.nodeVersion} of XPANEL Node. Please upgrade to the latest version (>= 2.7.0).`,
+                        lastStatusMessage: `Outdated version ${xrayStatusResponse.response.nodeVersion} of XLADA Node. Please upgrade to the latest version (>= 2.7.0).`,
                         lastStatusChange: new Date(),
                         isConnected: false,
                         isConnecting: false,
@@ -133,7 +133,7 @@ export class StartNodeProcessor extends WorkerHost {
                 );
 
                 this.logger.error(
-                    `Outdated version ${xrayStatusResponse.response.nodeVersion} of XPANEL Node. Please upgrade to the latest version (>= 2.7.0).`,
+                    `Outdated version ${xrayStatusResponse.response.nodeVersion} of XLADA Node. Please upgrade to the latest version (>= 2.7.0).`,
                 );
 
                 return;

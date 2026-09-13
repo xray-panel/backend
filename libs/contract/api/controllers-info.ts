@@ -118,7 +118,7 @@ export const CONTROLLERS_INFO = {
     },
     KEYGEN: {
         tag: 'Keygen Controller',
-        description: 'Generation of SECRET_KEY for XPANEL Node.',
+        description: 'Generation of SECRET_KEY for XLADA Node.',
         resource: 'keygen',
     },
     SUBSCRIPTION_REQUEST_HISTORY: {
@@ -132,7 +132,7 @@ export const CONTROLLERS_INFO = {
         resource: 'snippets',
     },
     REMNAAWAVE_SETTINGS: {
-        tag: 'XPANEL Settings Controller',
+        tag: 'XLADA Settings Controller',
         description: '',
         resource: 'remnawave-settings',
     },

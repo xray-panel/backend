@@ -1,4 +1,4 @@
-import { CipherType } from '@xpanel/node-contract';
+import { CipherType } from '@xlada/node-contract';
 
 export enum ShadowsocksMethod {
     AES_128_GCM = 'aes-128-gcm',

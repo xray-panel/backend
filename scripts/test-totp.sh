@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Проверка TOTP (XPANEL) по тестовым векторам RFC 6238.
+# Проверка TOTP (XLADA) по тестовым векторам RFC 6238.
 #
 # Движок не имеет зависимостей кроме node:crypto, поэтому компилируется и
 # проверяется без базы данных и без запуска приложения.
@@ -57,8 +57,8 @@ for (const [seconds, expected] of VECTORS) {
 // --- base32 ---
 check(
     'base32: кодирование и декодирование обратимы',
-    totp.base32Decode(totp.base32Encode(Buffer.from('XPANEL test'))).toString('utf8'),
-    'XPANEL test',
+    totp.base32Decode(totp.base32Encode(Buffer.from('XLADA test'))).toString('utf8'),
+    'XLADA test',
 );
 check('base32: известное значение', totp.base32Encode(Buffer.from('abc')), 'MFRGG');
 
@@ -89,10 +89,10 @@ check('нецифровой код отклоняется', totp.verifyTotpCode(
 check('пустой код отклоняется', totp.verifyTotpCode(secret, '', { nowMs }), false);
 
 // --- otpauth ---
-const url = totp.buildOtpauthUrl({ secret, account: 'admin', issuer: 'XPANEL' });
+const url = totp.buildOtpauthUrl({ secret, account: 'admin', issuer: 'XLADA' });
 check('otpauth: схема', url.startsWith('otpauth://totp/'), true);
 check('otpauth: содержит секрет', url.includes(`secret=${secret}`), true);
-check('otpauth: подпись издателя', url.includes('XPANEL%3Aadmin'), true);
+check('otpauth: подпись издателя', url.includes('XLADA%3Aadmin'), true);
 check('otpauth: период и алгоритм', url.includes('period=30') && url.includes('algorithm=SHA1'), true);
 
 // Разные секреты дают разные коды.

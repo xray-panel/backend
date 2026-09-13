@@ -278,7 +278,7 @@ export class XrayGeneratorService {
         if (host.transportOptions.host) {
             params.host = host.transportOptions.host;
         }
-        // XPANEL extension: heartbeatPeriod
+        // XLADA extension: heartbeatPeriod
         if (host.transportOptions.heartbeatPeriod) {
             params.heartbeatPeriod = host.transportOptions.heartbeatPeriod;
         }

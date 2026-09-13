@@ -4,7 +4,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { GetCombinedStatsCommand } from '@xpanel/node-contract';
+import { GetCombinedStatsCommand } from '@xlada/node-contract';
 
 import { AxiosService } from '@common/axios';
 import { RawCacheService } from '@common/raw-cache';

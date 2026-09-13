@@ -1,1 +1,1 @@
-# @xpanel/hashed-set
+# @xlada/hashed-set

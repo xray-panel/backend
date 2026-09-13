@@ -23,7 +23,7 @@ import { GetActivePasskeysResponseModel } from '../models/get-active-passkeys.mo
 import { AdminRepository } from '../repositories/admin.repository';
 import { PasskeyRepository } from '../repositories/passkey.repository';
 
-const RP_NAME = 'XPANEL';
+const RP_NAME = 'XLADA';
 
 @Injectable()
 export class PasskeyService {
@@ -72,7 +72,7 @@ export class PasskeyService {
                 rpName: RP_NAME,
                 rpID: passkeySettings.rpId,
                 userName: admin.username,
-                userDisplayName: 'XPANEL Administrator',
+                userDisplayName: 'XLADA Administrator',
                 userID: new Uint8Array(Buffer.from(admin.uuid)),
                 attestationType: 'none',
                 excludeCredentials: existingPasskeys.map((passkey) => ({

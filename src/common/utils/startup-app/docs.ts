@@ -57,7 +57,7 @@ export async function getDocs(app: INestApplication<unknown>) {
     const options = {
         explorer: false,
         customCss: theme.getBuffer(SwaggerThemeNameEnum.ONE_DARK),
-        customSiteTitle: 'XPANEL API Schema',
+        customSiteTitle: 'XLADA API Schema',
         swaggerOptions: {
             persistAuthorization: true,
         },

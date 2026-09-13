@@ -34,9 +34,9 @@ const bullBoard = [
         adapter: ExpressAdapter,
         boardOptions: {
             uiConfig: {
-                boardTitle: 'XPANEL',
+                boardTitle: 'XLADA',
                 boardLogo: {
-                    path: 'https://docs.xraypanel.dev/img/logo.svg',
+                    path: 'https://xlada.app/img/logo.svg',
                     width: 32,
                     height: 32,
                 },
@@ -53,8 +53,8 @@ const bullBoard = [
                         url: '/dashboard',
                     },
                     {
-                        text: 'XPANEL',
-                        url: 'https://docs.xraypanel.dev',
+                        text: 'XLADA',
+                        url: 'https://xlada.app',
                     },
                     {
                         text: 'Telegram',

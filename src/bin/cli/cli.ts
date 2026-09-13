@@ -154,7 +154,7 @@ async function resetCerts() {
         });
         consola.success(`✅ Certs deleted successfully.`);
         consola.warn(
-            `Restart XPANEL to apply changes by running "docker compose down && docker compose up -d".`,
+            `Restart XLADA to apply changes by running "docker compose down && docker compose up -d".`,
         );
     } catch (error) {
         consola.error('❌ Failed to reset certs:', error);
@@ -169,12 +169,12 @@ async function getSecretKeyForNode() {
         const keygen = await prisma.keygen.findFirst();
 
         if (!keygen) {
-            consola.error('❌ Keygen not found. Reset SECRET_KEY first or restart XPANEL.');
+            consola.error('❌ Keygen not found. Reset SECRET_KEY first or restart XLADA.');
             process.exit(1);
         }
 
         if (!keygen.caCert || !keygen.caKey) {
-            consola.error('❌ Certs not found. Reset SECRET_KEY first or restart XPANEL.');
+            consola.error('❌ Certs not found. Reset SECRET_KEY first or restart XLADA.');
             process.exit(1);
         }
 
@@ -626,7 +626,7 @@ async function generateEncryptionKeys() {
 }
 
 async function main() {
-    consola.box('XPANEL Rescue CLI v0.4');
+    consola.box('XLADA Rescue CLI v0.4');
 
     consola.start('🌱 Checking database connection...');
     const isConnected = await checkDatabaseConnection();
@@ -690,7 +690,7 @@ async function main() {
             },
             {
                 value: CLI_ACTIONS.GET_SECRET_KEY_FOR_NODE,
-                label: 'Get SECRET_KEY for a XPANEL Node',
+                label: 'Get SECRET_KEY for a XLADA Node',
                 hint: 'Get SECRET_KEY in cases, where you can not get from Panel',
             },
             {
