@@ -1347,15 +1347,19 @@ export const ERRORS = {
         message: 'Two-factor authentication is not enabled',
         httpCode: 400,
     },
+    // Именно 400, а не 403. Фильтр исключений для любого 403 подменяет
+    // сообщение на «Forbidden» и стирает код ошибки, а интерцептор axios
+    // на 401 и 403 разлогинивает панель. С 403 опечатка в коде не только
+    // не объяснялась бы пользователю, но и выбрасывала бы его из панели.
     TOTP_INVALID_CODE: {
         code: 'A269',
         message: 'Invalid two-factor authentication code',
-        httpCode: 403,
+        httpCode: 400,
     },
     TOTP_TICKET_INVALID: {
         code: 'A270',
         message: 'Two-factor ticket is invalid or expired',
-        httpCode: 403,
+        httpCode: 400,
     },
     TOTP_ERROR: {
         code: 'A271',

@@ -132,7 +132,7 @@ echo "секрет для восстановления вручную: $TOTP_SEC
 echo
 echo "== verify: неверный код не включает второй фактор =="
 CODE=$(req POST /api/auth/2fa/verify "$TOKEN" "{\"code\":\"000000\"}")
-check "неверный код отклонён" "$CODE" "403"
+check "неверный код отклонён" "$CODE" "400"
 check "код ошибки — A269" "$(json "d['errorCode']")" "A269"
 
 CODE=$(req GET /api/auth/2fa/status "$TOKEN")
@@ -169,11 +169,11 @@ check "билет не годится как access-токен" "$CODE" "401"
 echo
 echo "== 2fa/login =="
 CODE=$(req POST /api/auth/2fa/login "" "{\"ticket\":\"$TICKET\",\"code\":\"000000\"}")
-check "неверный код — 403" "$CODE" "403"
+check "неверный код — 400" "$CODE" "400"
 check "код ошибки — A269" "$(json "d['errorCode']")" "A269"
 
 CODE=$(req POST /api/auth/2fa/login "" "{\"ticket\":\"bogus\",\"code\":\"123456\"}")
-check "битый билет — 403" "$CODE" "403"
+check "битый билет — 400" "$CODE" "400"
 check "код ошибки — A270" "$(json "d['errorCode']")" "A270"
 
 VALID_CODE=$(totp_code "$TOTP_SECRET")
@@ -188,7 +188,7 @@ check "токен из 2fa/login работает" "$CODE" "200"
 echo
 echo "== disable =="
 CODE=$(req POST /api/auth/2fa/disable "$TOKEN" "{\"code\":\"000000\"}")
-check "disable с неверным кодом — 403" "$CODE" "403"
+check "disable с неверным кодом — 400" "$CODE" "400"
 
 VALID_CODE=$(totp_code "$TOTP_SECRET")
 CODE=$(req POST /api/auth/2fa/disable "$TOKEN" "{\"code\":\"$VALID_CODE\"}")
