@@ -10,7 +10,7 @@ import { RawCacheService } from '@common/raw-cache';
 import {
     CACHE_KEYS,
     CACHE_KEYS_TTL,
-    getNodeBrandName,
+    getNodeDisplayName,
     getRequiredNodeVersion,
     isNodeVersionOutdated,
 } from '@libs/contracts/constants';
@@ -249,7 +249,7 @@ export class StartAllNodesByProfileQueueProcessor extends WorkerHost {
                     pluginsSupported = false;
 
                     this.logger.warn(
-                        `Node ${node.uuid} running on outdated version ${nodeVersion} of ${getNodeBrandName(nodeVersion)} Node. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}). Some features may not work properly.`,
+                        `Node ${node.uuid} running on outdated version ${nodeVersion} of ${getNodeDisplayName(nodeVersion)}. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}). Some features may not work properly.`,
                     );
                 }
 

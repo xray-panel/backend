@@ -71,9 +71,13 @@ export const isXladaNodeVersion = (raw?: null | string): boolean => {
     return version !== null && version[0] < 2;
 };
 
-/** Название ветки ноды — подставляется в текст сообщений. */
-export const getNodeBrandName = (raw?: null | string): string =>
-    isXladaNodeVersion(raw) ? 'XLADA' : 'Remnawave';
+/**
+ * Как называть ноду в тексте сообщений. Для ветки XLADA — бренд продукта,
+ * для официальной ноды — просто «the node»: апстримное имя в интерфейсе
+ * панели не показываем.
+ */
+export const getNodeDisplayName = (raw?: null | string): string =>
+    isXladaNodeVersion(raw) ? 'XLADA Node' : 'the node';
 
 /** Минимальная версия для конкретной ноды — её показываем в сообщениях. */
 export const getRequiredNodeVersion = (raw?: null | string, isGeocheck = false): string => {

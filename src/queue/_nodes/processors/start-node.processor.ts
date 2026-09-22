@@ -12,7 +12,7 @@ import {
     CACHE_KEYS,
     CACHE_KEYS_TTL,
     EVENTS,
-    getNodeBrandName,
+    getNodeDisplayName,
     getRequiredNodeVersion,
     isNodeVersionOutdated,
 } from '@libs/contracts/constants';
@@ -130,7 +130,7 @@ export class StartNodeProcessor extends WorkerHost {
             const { nodeVersion } = xrayStatusResponse.response;
 
             if (isNodeVersionOutdated(nodeVersion)) {
-                const outdatedMessage = `Outdated version ${nodeVersion} of ${getNodeBrandName(nodeVersion)} Node. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}).`;
+                const outdatedMessage = `Outdated version ${nodeVersion} of ${getNodeDisplayName(nodeVersion)}. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}).`;
 
                 await this.commandBus.execute(
                     new UpdateNodeCommand({
