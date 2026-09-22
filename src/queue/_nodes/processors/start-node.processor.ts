@@ -1,5 +1,4 @@
 import { Job } from 'bullmq';
-import semver from 'semver';
 
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
@@ -9,7 +8,14 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AxiosService } from '@common/axios/axios.service';
 import { RawCacheService } from '@common/raw-cache';
 import { formatExecutionTime, getTime } from '@common/utils/get-elapsed-time';
-import { CACHE_KEYS, CACHE_KEYS_TTL, EVENTS } from '@libs/contracts/constants';
+import {
+    CACHE_KEYS,
+    CACHE_KEYS_TTL,
+    EVENTS,
+    getNodeBrandName,
+    getRequiredNodeVersion,
+    isNodeVersionOutdated,
+} from '@libs/contracts/constants';
 
 import { NodeEvent } from '@integration-modules/notifications/interfaces';
 
@@ -121,20 +127,22 @@ export class StartNodeProcessor extends WorkerHost {
                 return;
             }
 
-            if (semver.lt(xrayStatusResponse.response.nodeVersion, '2.7.0')) {
+            const { nodeVersion } = xrayStatusResponse.response;
+
+            if (isNodeVersionOutdated(nodeVersion)) {
+                const outdatedMessage = `Outdated version ${nodeVersion} of ${getNodeBrandName(nodeVersion)} Node. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}).`;
+
                 await this.commandBus.execute(
                     new UpdateNodeCommand({
                         uuid: node.uuid,
-                        lastStatusMessage: `Outdated version ${xrayStatusResponse.response.nodeVersion} of XLADA Node. Please upgrade to the latest version (>= 2.7.0).`,
+                        lastStatusMessage: outdatedMessage,
                         lastStatusChange: new Date(),
                         isConnected: false,
                         isConnecting: false,
                     }),
                 );
 
-                this.logger.error(
-                    `Outdated version ${xrayStatusResponse.response.nodeVersion} of XLADA Node. Please upgrade to the latest version (>= 2.7.0).`,
-                );
+                this.logger.error(outdatedMessage);
 
                 return;
             }

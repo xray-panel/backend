@@ -1,6 +1,5 @@
 import { Job } from 'bullmq';
 import pMap from 'p-map';
-import semver from 'semver';
 
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger, Scope } from '@nestjs/common';
@@ -8,7 +7,13 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { AxiosService } from '@common/axios/axios.service';
 import { RawCacheService } from '@common/raw-cache';
-import { CACHE_KEYS, CACHE_KEYS_TTL } from '@libs/contracts/constants';
+import {
+    CACHE_KEYS,
+    CACHE_KEYS_TTL,
+    getNodeBrandName,
+    getRequiredNodeVersion,
+    isNodeVersionOutdated,
+} from '@libs/contracts/constants';
 
 import { ConfigProfileInboundEntity } from '@modules/config-profiles/entities';
 import { GetResolvedIntegrationsQuery } from '@modules/node-integrations/queries/get-resolved-integrations';
@@ -239,11 +244,12 @@ export class StartAllNodesByProfileQueueProcessor extends WorkerHost {
                         `Node ${node.uuid} – unknown node version. Please upgrade XLADA Node to the latest version.`,
                     );
                     return;
-                } else if (semver.lt(xrayStatusResponse.response.nodeVersion, '2.7.0')) {
+                } else if (isNodeVersionOutdated(xrayStatusResponse.response.nodeVersion)) {
+                    const { nodeVersion } = xrayStatusResponse.response;
                     pluginsSupported = false;
 
                     this.logger.warn(
-                        `Node ${node.uuid} running on outdated version of XLADA Node. Please upgrade to the latest version. Some features may not work properly.`,
+                        `Node ${node.uuid} running on outdated version ${nodeVersion} of ${getNodeBrandName(nodeVersion)} Node. Please upgrade to the latest version (>= ${getRequiredNodeVersion(nodeVersion)}). Some features may not work properly.`,
                     );
                 }
 

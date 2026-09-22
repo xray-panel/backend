@@ -6,6 +6,7 @@ export * from './events';
 export * from './headers';
 export * from './hosts';
 export * from './metrics';
+export * from './node-version';
 export * from './nodes';
 export * from './oauth2';
 export * from './response-rules';
