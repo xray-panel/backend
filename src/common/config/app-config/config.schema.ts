@@ -136,6 +136,7 @@ export const configSchema = z
                 (val) => Number.isInteger(val) && val > 0,
                 'SUBSCRIPTION_REQUEST_HISTORY_RETENTION_DAYS must be a positive integer',
             ),
+        SERVICE_SNI_VERIFICATION: booleanString('true'),
         EXPORT_TO_STREAM_ENABLED: booleanString('false'),
         EXPORT_TO_STREAM_MAXLEN: z
             .string()
