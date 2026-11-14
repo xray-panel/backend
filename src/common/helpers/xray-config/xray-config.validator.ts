@@ -8,6 +8,7 @@ import {
     TLSCertConfig,
     TrojanInboundConfig,
     VLessInboundConfig,
+    VMessInboundConfig,
     XrayConfig,
 } from 'xray-typed';
 
@@ -25,8 +26,18 @@ import {
     SHADOWSOCKS_METHODS,
 } from './ss-cipher';
 
-const MANAGED_CLIENT_PROTOCOLS = new Set(['hysteria', 'shadowsocks', 'trojan', 'vless']);
-type ManagedInboundSettings = VLessInboundConfig | TrojanInboundConfig | ShadowsocksInboundConfig;
+const MANAGED_CLIENT_PROTOCOLS = new Set([
+    'hysteria',
+    'shadowsocks',
+    'trojan',
+    'vless',
+    'vmess',
+]);
+type ManagedInboundSettings =
+    | VLessInboundConfig
+    | TrojanInboundConfig
+    | ShadowsocksInboundConfig
+    | VMessInboundConfig;
 
 const ALLOWED_PROTOCOLS = new Set([
     'dokodemo-door',
@@ -38,6 +49,7 @@ const ALLOWED_PROTOCOLS = new Set([
     'tun',
     'tunnel',
     'vless',
+    'vmess',
     'wireguard',
 ]);
 
@@ -51,6 +63,7 @@ const ALLOWED_NETWORKS = new Set([
     'raw',
     'tcp',
     'ws',
+    'xdrive',
     'xhttp',
 ]);
 
@@ -267,6 +280,21 @@ export class XRayConfig {
                     });
                 }
                 break;
+
+            case 'vmess': {
+                if (!inbound.settings) {
+                    inbound.settings = {};
+                }
+                inbound.settings.clients ??= [];
+
+                for (const user of users) {
+                    inbound.settings.clients.push({
+                        id: user.vlessUuid,
+                        email: user.id.toString(),
+                    });
+                }
+                break;
+            }
 
             case 'shadowsocks': {
                 if (!inbound.settings) {
